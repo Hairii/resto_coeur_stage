@@ -1,0 +1,47 @@
+restos-ad16/
+└── 📁backend
+    └── 📁src
+        └── 📁config
+            └── db.js
+        └── 📁controllers
+            ├── gazettes.controller.js
+            └── evenements.controller.js
+        └── 📁middlewares
+            └── auth.middleware.js
+        └── 📁models
+            ├── gazettes.model.js
+            └── evenements.model.js
+        └── 📁routes
+            ├── gazettes.routes.js
+            └── evenements.routes.js
+        └── 📁validations
+            └── evenements.validation.js
+        ├── app.js
+        └── server.js
+    ├── .env
+    └── package.json
+
+└── 📁frontend
+    └── 📁css
+        └── main.css
+    └── 📁html
+        ├── index.html
+        ├── gazettes.html
+        ├── evenements.html
+        ├── association.html
+        ├── actions.html
+        ├── beneficier.html
+        ├── agir.html
+        ├── partenaires.html
+        └── contact.html
+    └── 📁js
+        └── 📁api
+            ├── gazettes.api.js
+            └── evenements.api.js
+        └── 📁components
+            ├── header.js
+            ├── footer.js
+            └── calendrier.js
+    └── 📁assets
+        └── 📁images
+    └── package.json
