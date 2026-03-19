@@ -1,0 +1,47 @@
+import db from "../config/db.js";
+
+export const getGazettes = async () => {
+  try {
+    const [gazette] = await db.query("SELECT * FROM gazettes");
+    return gazette;
+  } catch (error) {
+    console.error("erruer server (getGazettes)", error.message);
+    throw error;
+  }
+};
+
+export const createGazette = async ({ titre, description, fichier_pdf }) => {
+  try {
+    await db.query(
+      "INSERT INTO gazettes (titre, description, fichier_pdf) VALUES (?, ?, ?)",
+      [titre, description, fichier_pdf],
+    );
+  } catch (error) {
+    console.error("erreur server (createGazette)", error.message);
+    throw error;
+  }
+};
+
+export const getGazetteById = async (id) => {
+  try {
+    const [gazette] = await db.query("SELECT * FROM gazettes WHERE id = ?", [
+      id,
+    ]);
+    return gazette[0];
+  } catch (error) {
+    console.error("erruer server (getGazetteById)", error.message);
+    throw error;
+  }
+};
+
+export const deleteGazette = async (id) => {
+  try {
+    const [gazette] = await db.query("DELETE FROM gazettes  WHERE id = ?", [
+      id,
+    ]);
+    return gazette.affectedRows > 0;
+  } catch (error) {
+    console.error("erruer server (deleteGazette)", error.message);
+    throw error;
+  }
+};
