@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gazettes - Les Restos du Cœur Charente</title>
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body class="bg-white text-noir font-sans">
+    <div
+      class="border-b border-gray-200 px-10 py-2 flex justify-end gap-6 text-xs"
+    >
+      <a
+        href="#"
+        class="flex items-center gap-1 hover:text-rose transition-colors"
+        >👤 Mon espace bénévole</a
+      >
+      <a
+        href="#"
+        class="flex items-center gap-1 hover:text-rose transition-colors"
+        >👤 Mon espace donateur</a
+      >
+    </div>
+
+    <!-- HEADER -->
+    <header class="px-10 py-4 flex items-center justify-between bg-white">
+      <div class="flex items-center gap-4">
+        <img
+          src="https://ad16.restosducoeur.org/wp-content/themes/associations-dep/img/logo.svg"
+          alt="Logo"
+          class="w-24"
+        />
+        <div>
+          <h1 class="text-xl font-extrabold uppercase tracking-wide text-noir">
+            Les Restos du Cœur
+          </h1>
+          <span class="text-rose font-bold uppercase text-base">Charente</span>
+        </div>
+      </div>
+      <div class="hidden md:flex gap-4 items-center">
+        <a
+          href="devenir-benevole.html"
+          class="bg-jaune text-white px-5 py-3 rounded-full font-bold uppercase text-xs text-center leading-tight hover:opacity-85 transition-opacity"
+          >Devenir<br />bénévole</a
+        >
+        <a
+          href="faire-un-don.html"
+          class="bg-rose text-white px-5 py-3 rounded-full font-bold uppercase text-xs text-center leading-tight hover:opacity-85 transition-opacity"
+          >Faire un<br />don</a
+        >
+      </div>
+    </header>
+
+    <!-- BARRE JAUNE -->
+    <div class="h-1.5 bg-jaune w-full"></div>
+
+    <!-- NAV -->
+    <nav
+      class="bg-white border-b-2 border-gris px-10 flex items-center justify-center relative"
+    >
+      <ul class="hidden md:flex list-none">
+        <li>
+          <a
+            href="index.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >🏠</a
+          >
+        </li>
+        <li>
+          <a
+            href="association.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >L'association</a
+          >
+        </li>
+        <li>
+          <a
+            href="actions.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >Nos actions</a
+          >
+        </li>
+        <li>
+          <a
+            href="beneficier.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >Comment bénéficier des Restos ?</a
+          >
+        </li>
+        <li>
+          <a
+            href="agir.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >Agir avec nous</a
+          >
+        </li>
+        <li>
+          <a
+            href="partenaires.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >Partenaires</a
+          >
+        </li>
+        <li>
+          <a
+            href="gazettes.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide text-rose border-b-2 border-rose"
+            >Gazettes</a
+          >
+        </li>
+        <li>
+          <a
+            href="evenements.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >Événements</a
+          >
+        </li>
+        <li>
+          <a
+            href="contact.html"
+            class="block px-4 py-5 font-semibold text-xs uppercase tracking-wide hover:text-rose transition-colors"
+            >Contact</a
+          >
+        </li>
+      </ul>
+      <button
+        class="hidden md:flex absolute right-10 bg-rose text-white w-11 h-11 items-center justify-center text-lg"
+      >
+        🔍
+      </button>
+      <button
+        id="burger"
+        class="md:hidden absolute right-5 flex flex-col gap-1.5 p-2 bg-transparent border-none cursor-pointer"
+      >
+        <span
+          id="b1"
+          class="block w-6 h-0.5 bg-rose rounded transition-all duration-300"
+        ></span>
+        <span
+          id="b2"
+          class="block w-6 h-0.5 bg-rose rounded transition-all duration-300"
+        ></span>
+        <span
+          id="b3"
+          class="block w-6 h-0.5 bg-rose rounded transition-all duration-300"
+        ></span>
+      </button>
+      <div
+        id="mobileMenu"
+        class="hidden flex-col bg-white border-t-4 border-rose absolute top-full left-0 right-0 z-50 shadow-lg"
+      >
+        <a
+          href="index.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >🏠 Accueil</a
+        >
+        <a
+          href="association.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >L'association</a
+        >
+        <a
+          href="actions.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >Nos actions</a
+        >
+        <a
+          href="beneficier.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >Comment bénéficier des Restos ?</a
+        >
+        <a
+          href="agir.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >Agir avec nous</a
+        >
+        <a
+          href="partenaires.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >Partenaires</a
+        >
+        <a
+          href="gazettes.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris text-rose"
+          >Gazettes</a
+        >
+        <a
+          href="evenements.html"
+          class="px-6 py-4 font-semibold text-sm uppercase border-b border-gris hover:bg-gris hover:text-rose transition-colors"
+          >Événements</a
+        >
+        <a
+          href="contact.html"
+          class="px-6 py-4 font-semibold text-sm uppercase hover:bg-gris hover:text-rose transition-colors"
+          >Contact</a
+        >
+      </div>
+    </nav>
+
+    <!-- TITRE PAGE -->
+    <div class="bg-rose px-10 py-6">
+      <h2 class="text-white font-extrabold uppercase text-2xl tracking-wide">
+        Nos Gazettes
+      </h2>
+    </div>
+
+    <!-- CONTENU GAZETTES -->
+    <section class="px-10 py-12 bg-gris min-h-64">
+      <div
+        id="gazettes-container"
+        class="grid grid-cols-1 md:grid-cols-3 gap-6"
+      >
+        <!-- chargement -->
+        <p id="loading" class="text-gray-400 text-sm col-span-3">
+          Chargement des gazettes...
+        </p>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-noir text-white px-10 py-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
+        <div>
+          <h4
+            class="text-xs font-bold uppercase tracking-widest text-rose mb-4"
+          >
+            Découvrir
+          </h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="beneficier.html"
+                class="text-gray-400 text-sm hover:text-white transition-colors"
+                >Comment bénéficier des Restos ?</a
+              >
+            </li>
+            <li>
+              <a
+                href="actions.html"
+                class="text-gray-400 text-sm hover:text-white transition-colors"
+                >Nos actions</a
+              >
+            </li>
+            <li>
+              <a
+                href="gazettes.html"
+                class="text-gray-400 text-sm hover:text-white transition-colors"
+                >Gazettes</a
+              >
+            </li>
+            <li>
+              <a
+                href="evenements.html"
+                class="text-gray-400 text-sm hover:text-white transition-colors"
+                >Événements</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4
+            class="text-xs font-bold uppercase tracking-widest text-rose mb-4"
+          >
+            S'engager
+          </h4>
+          <ul class="space-y-2">
+            <li>
+              <a
+                href="#"
+                class="text-gray-400 text-sm hover:text-white transition-colors"
+                >Faire un don financier</a
+              >
+            </li>
+            <li>
+              <a
+                href="#"
+                class="text-gray-400 text-sm hover:text-white transition-colors"
+                >Devenir bénévole</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4
+            class="text-xs font-bold uppercase tracking-widest text-rose mb-4"
+          >
+            Nous contacter
+          </h4>
+          <div class="text-gray-400 text-sm leading-loose">
+            20 Impasse du Moulin de L'Escalier<br />
+            16400 La Couronne<br />
+            <a href="tel:0545674949" class="text-rose hover:underline"
+              >05 45 67 49 49</a
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-t border-gray-700 pt-5 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-gray-600"
+      >
+        <span>© 2026 Les Restos du Cœur - Charente</span>
+        <div class="flex gap-3">
+          <a href="#" class="hover:text-white transition-colors"
+            >Mentions légales</a
+          >
+          <span>|</span>
+          <a href="#" class="hover:text-white transition-colors"
+            >Confidentialité</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

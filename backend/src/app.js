@@ -29,4 +29,7 @@ app.use("/api/evenements", evenementRoutes);
 app.use(express.static(path.join(__dirname, "../../frontend/html")));
 app.use(express.static(path.join(__dirname, "../../frontend")));
 
+app.get('/gazettes', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/html/gazettes.html'));
+});
 export default app;
