@@ -3,23 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gazettes - Les Restos du Cœur Charente</title>
+    <title>Evenements - Les Restos du Cœur Charente</title>
     <link rel="stylesheet" href="/css/output.css" />
   </head>
-  <body class="bg-white text-black font-sans">
+  <body class="bg-white text-black font font-sans">
     <div
       class="border-b border-gray-200 px-10 py-2 flex justify-end gap-6 text-xs"
     >
       <a
         href="#"
-        class="flex items-center gap-1 hover:text-rose transition-colors"
-        >👤 Mon espace bénévole</a
+        class="flex intem center gap-1 hover:text-rose transition-colors"
       >
+        👤 Mon espace bénévole
+      </a>
       <a
         href="#"
-        class="flex items-center gap-1 hover:text-rose transition-colors"
-        >👤 Mon espace donateur</a
+        class="flex items-center gap-1 hover:text-jaune transition-colors"
       >
+        👤 Mon espace donateur
+      </a>
     </div>
 
     <!-- HEADER -->
@@ -27,7 +29,7 @@
       <div class="flex items-center gap-4">
         <img
           src="https://ad16.restosducoeur.org/wp-content/themes/associations-dep/img/logo.svg"
-          alt="Logo"
+          alt="logo"
           class="w-24"
         />
         <div>
@@ -51,10 +53,10 @@
       </div>
     </header>
 
-    <!-- BARRE JAUNE -->
+    <!--BARRE JAUNE-->
     <div class="h-1.5 bg-jaune w-full"></div>
 
-    <!-- NAV -->
+    <!--NAV-->
     <nav
       class="bg-white border-b-2 border-gris px-10 flex items-center justify-center relative"
     >
@@ -197,22 +199,21 @@
       </div>
     </nav>
 
-    <!-- TITRE PAGE -->
+    <!--TITRE PAGE-->
     <div class="bg-rose px-10 py-6">
       <h2 class="text-white font-extrabold uppercase text-2xl tracking-wide">
-        Nos Gazettes
+        Nos Événements
       </h2>
     </div>
 
-    <!-- CONTENU GAZETTES -->
+    <!--CONTENU EVENEMENTS-->
     <section class="px-10 py-12 bg-gris min-h-64">
       <div
-        id="gazettes-container"
+        id="evenements-container"
         class="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        <!-- chargement -->
         <p id="loading" class="text-gray-400 text-sm col-span-3">
-          Chargement des gazettes...
+          Chargement des Événements...
         </p>
       </div>
     </section>
@@ -310,7 +311,7 @@
         </div>
       </div>
     </footer>
+    <script src="/js/api/evenements.api.js"></script>
     <script src="/js/burger.js"></script>
-    <script src="/js/api/gazettes.api.js"></script>
   </body>
 </html>
