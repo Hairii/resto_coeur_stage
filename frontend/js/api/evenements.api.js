@@ -109,7 +109,7 @@ const renderCalendar = (date) => {
                 (e) => `
               <div class="flex gap-3 items-start">
                 <span class="bg-rose text-white text-xs px-2 py-1 rounded font-bold whitespace-nowrap">
-                  ${new Date(e.date_debut).toLocaleDateString("fr-FR")}
+                ${new Date (e.date_debut).toLocaleDateString('fr-FR')} → ${new Date(e.date_fin ?? e.date_debut).toLocaleDateString('fr-FR')}
                 </span>
                 <div>
                   <p class="font-bold text-sm">${e.titre}</p>
