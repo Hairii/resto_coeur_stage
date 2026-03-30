@@ -8,7 +8,7 @@ export const  evenementsSchema = Joi.object({
         "any.required": "Le titre est obligatoire",
     }),
 
-    description: Joi.string.max(1000).allow("", null).messages({
+    description: Joi.string().max(1000).allow("", null).messages({
         "string.max": "La description ne peut pas dépasser 1000 caractères"
     }),
 
