@@ -102,7 +102,7 @@ const renderCalendar = (date) => {
         evenementsInMonth.length > 0
           ? `
         <div class="px-6 py-4 border-t border-gray-200">
-          <h4 class="font-bold uppercase text-xs text-gray-500 mb-3">Événements ce mois</h4>
+          <h4 class="font-bold uppercase text-xs text-gray-500 mb-3">Événements du mois</h4>
           <div class="flex flex-col gap-2">
             ${evenementsInMonth
               .map(

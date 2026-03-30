@@ -22,7 +22,7 @@ const fetchGazettes = async () => {
         </div>
         <h3 class="font-bold uppercase text-sm">${gazette.titre}</h3>
         <p class="text-gray-500 text-xs">${gazette.description ?? ''}</p>
-        <span class="text-xs text-gray-400">${new Date(gazette.date_publication).toLocaleDateString('fr-FR')}</span>
+        <span class="text-xs text-gray-400">${new Date(gazette.created_at).toLocaleDateString('fr-FR')}</span>
         <a href="/uploads/gazettes/${gazette.fichier_pdf}" target="_blank" class="mt-auto bg-rose text-white text-xs font-bold uppercase px-4 py-2 rounded hover:opacity-85 transition-opacity text-center">
           Télécharger
         </a>
