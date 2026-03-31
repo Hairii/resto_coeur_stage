@@ -11,10 +11,4 @@ export const gazetteSchema = Joi.object({
   description: Joi.string().max(1000).allow("", null).messages({
     "string.max": "La description ne peut pas dépasser 1000 caractères",
   }),
- 
-  fichier_pdf: Joi.string().max(255).required().messages({
-    "string.base": "Le nom du fichier doit être une chaîne de caractères",
-    "string.max": "Le nom du fichier ne peut pas dépasser 255 caractères",
-    "any.required": "Le fichier PDF est obligatoire",
-  }),
 });

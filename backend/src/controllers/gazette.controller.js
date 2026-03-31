@@ -18,6 +18,9 @@ export const getAllGazettes = async (req, res) => {
 export const addGazettes = async (req, res) => {
   try {
     const { titre, description } = req.body;
+    if (!req.file) {
+      return res.status(400).json({ message: "Le fichier PDF est obligatoire" });
+    }
     const fichier_pdf = req.file.filename;
     await createGazette({ titre, description, fichier_pdf });
     res.status(201).json({ message: "Gazette ajoutée" });
