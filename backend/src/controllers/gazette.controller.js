@@ -17,7 +17,8 @@ export const getAllGazettes = async (req, res) => {
 
 export const addGazettes = async (req, res) => {
   try {
-    const { titre, description, fichier_pdf } = req.body;
+    const { titre, description } = req.body;
+    const fichier_pdf = req.file.filename;
     await createGazette({ titre, description, fichier_pdf });
     res.status(201).json({ message: "Gazette ajoutée" });
   } catch (error) {

@@ -13,6 +13,8 @@ const fetchGazettes = async () => {
       return;
     }
 
+
+    // voir si plusieur evenements changer de couleur pour mieux les differencier
     gazettes.forEach(gazette => {
       const card = document.createElement('div');
       card.className = 'bg-white rounded shadow p-6 flex flex-col gap-3';
