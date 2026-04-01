@@ -249,9 +249,6 @@
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
   }
-  .mt-2 {
-    margin-top: calc(var(--spacing) * 2);
-  }
   .mt-auto {
     margin-top: auto;
   }
@@ -281,9 +278,6 @@
   }
   .hidden {
     display: none;
-  }
-  .inline-block {
-    display: inline-block;
   }
   .h-0\.5 {
     height: calc(var(--spacing) * 0.5);
@@ -687,13 +681,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-gris);
-      }
-    }
-  }
-  .hover\:text-jaune {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-jaune);
       }
     }
   }
