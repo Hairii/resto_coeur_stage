@@ -33,6 +33,9 @@ export const addGazettes = async (req, res) => {
 export const getOneGazette = async (req, res) => {
   try {
     const gazette = await getGazetteById(req.params.id);
+    if (!gazette) {
+      return res.status(404).json({ message: "Gazette introuvable" });
+    }
     res.json(gazette);
   } catch (error) {
     console.error(error);
@@ -51,6 +54,6 @@ export const removeGazette = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "erruer server (removeGazette)" });
+    res.status(500).json({ message: "erreur server (removeGazette)" });
   }
 };

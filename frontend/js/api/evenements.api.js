@@ -8,13 +8,13 @@ let currentDate = new Date();
 
 // couleurs differentes
 const evenementsCOLORS = [
-  { bg: "#e5007d", text: "#fff" }, // rose (couleur principale)
+  { bg: "#e5007d", text: "#fff" }, // rose
   { bg: "#f5a800", text: "#fff" }, // jaune
   { bg: "#0095f8", text: "#fff" }, // bleu
   { bg: "#2e8b57", text: "#fff" }, // vert
   { bg: "#7c3aed", text: "#fff" }, // violet
   { bg: "#e05c2a", text: "#fff" }, // orange
-  { bg: "#07fde9", text: "#fff" }, // teal
+  { bg: "#0d9488 ", text: "#fff" }, // teal
   { bg: "#be123c", text: "#fff" }, // rouge foncé
 ];
 
@@ -63,13 +63,14 @@ const renderCalendar = (date) => {
   let start = firstDay.getDay();
   start = start === 0 ? 6 : start - 1;
 
+  const monthStart = new Date(year, month, 1);
+  const monthEnd = new Date(year, month + 1, 0);
+
+  //new evenments afficher possible polusieur mois d'affilé
   const evenementsInMonth = evenements.filter((e) => {
     const debut = new Date(e.date_debut);
     const fin = new Date(e.date_fin ?? e.date_debut);
-    return (
-      (debut.getMonth() === month && debut.getFullYear() === year) ||
-      (fin.getMonth() === month && fin.getFullYear() === year)
-    );
+    return debut <= monthEnd && fin >= monthStart;
   });
 
   container.innerHTML = `
