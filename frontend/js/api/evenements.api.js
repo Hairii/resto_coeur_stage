@@ -1,13 +1,33 @@
+import API_URL from "./config.js";
+
 const container = document.getElementById("evenements-container");
 const loading = document.getElementById("loading");
 
 let evenements = [];
 let currentDate = new Date();
 
+// couleurs differentes
+const evenementsCOLORS = [
+  { bg: "#e5007d", text: "#fff" }, // rose (couleur principale)
+  { bg: "#f5a800", text: "#fff" }, // jaune
+  { bg: "#0095f8", text: "#fff" }, // bleu
+  { bg: "#2e8b57", text: "#fff" }, // vert
+  { bg: "#7c3aed", text: "#fff" }, // violet
+  { bg: "#e05c2a", text: "#fff" }, // orange
+  { bg: "#07fde9", text: "#fff" }, // teal
+  { bg: "#be123c", text: "#fff" }, // rouge foncé
+];
+
 const fetchEvenements = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/evenements");
+    const response = await fetch(`${API_URL}/api/evenements`);
     evenements = await response.json();
+
+    // Couleur fixe par événement basée sur son id
+    evenements.forEach((e) => {
+      e._color = evenementsCOLORS[e.id % evenementsCOLORS.length];
+    });
+
     loading.remove();
     renderCalendar(currentDate);
   } catch (error) {
@@ -46,27 +66,28 @@ const renderCalendar = (date) => {
   const evenementsInMonth = evenements.filter((e) => {
     const debut = new Date(e.date_debut);
     const fin = new Date(e.date_fin ?? e.date_debut);
-     return (
-    (debut.getMonth() === month && debut.getFullYear() === year) ||
-    (fin.getMonth() === month && fin.getFullYear() === year)
-  );
-});
+    return (
+      (debut.getMonth() === month && debut.getFullYear() === year) ||
+      (fin.getMonth() === month && fin.getFullYear() === year)
+    );
+  });
 
   container.innerHTML = `
-    <div class ="bg-white rounded shadow overflow-hidden w-full col-span-3">
-    
-    <!-- naviguer mois-->
-    <div class="flex items-center justify-between bg-rose px-6 py-4">
+    <div class="bg-white rounded shadow overflow-hidden w-full col-span-3">
+ 
+       <!-- naviguer mois-->
+      <div class="flex items-center justify-between bg-rose px-6 py-4">
         <button id="prev" class="text-white font-bold text-lg hover:opacity-70">&#8249;</button>
         <h3 class="text-white font-extrabold uppercase tracking-wide">${monthNames[month]} ${year}</h3>
         <button id="next" class="text-white font-bold text-lg hover:opacity-70">&#8250;</button>
-    </div>
-    
-    <div class="grid grid-cols-7 bg-gray-100">
-    ${dayNames.map((day) => `<div class="text-center text-xs font-bold uppercase py-2 text-gray-500">${day}</div>`).join("")}
-        </div>
-
-      <!-- cases du calendrier -->
+      </div>
+ 
+      <!-- Jours de la semaine -->
+      <div class="grid grid-cols-7 bg-gray-100">
+        ${dayNames.map((day) => `<div class="text-center text-xs font-bold uppercase py-2 text-gray-500">${day}</div>`).join("")}
+      </div>
+ 
+      <!-- Cases du calendrier -->
       <div class="grid grid-cols-7 border-t border-gray-200">
         ${Array(start).fill('<div class="border-b border-r border-gray-100 min-h-16 p-1 bg-gray-50"></div>').join("")}
         ${Array.from({ length: lastDay.getDate() }, (_, i) => {
@@ -86,7 +107,11 @@ const renderCalendar = (date) => {
               ${eventsDay
                 .map(
                   (e) => `
-                <div class="bg-rose text-white text-xs rounded px-1 py-0.5 mt-1 truncate" title="${e.titre}">
+                <div
+                  class="text-xs rounded px-1 py-0.5 mt-1 truncate"
+                  style="background-color:${e._color.bg}; color:${e._color.text}"
+                  title="${e.titre}"
+                >
                   ${e.titre}
                 </div>
               `,
@@ -96,8 +121,8 @@ const renderCalendar = (date) => {
           `;
         }).join("")}
       </div>
-
-      <!-- légende événements du mois -->
+ 
+      <!-- Légende événements du mois -->
       ${
         evenementsInMonth.length > 0
           ? `
@@ -108,8 +133,11 @@ const renderCalendar = (date) => {
               .map(
                 (e) => `
               <div class="flex gap-3 items-start">
-                <span class="bg-rose text-white text-xs px-2 py-1 rounded font-bold whitespace-nowrap">
-                ${new Date (e.date_debut).toLocaleDateString('fr-FR')} → ${new Date(e.date_fin ?? e.date_debut).toLocaleDateString('fr-FR')}
+                <span
+                  class="text-xs px-2 py-1 rounded font-bold whitespace-nowrap"
+                  style="background-color:${e._color.bg}; color:${e._color.text}"
+                >
+                  ${new Date(e.date_debut).toLocaleDateString("fr-FR")} → ${new Date(e.date_fin ?? e.date_debut).toLocaleDateString("fr-FR")}
                 </span>
                 <div>
                   <p class="font-bold text-sm">${e.titre}</p>
@@ -124,7 +152,7 @@ const renderCalendar = (date) => {
       `
           : ""
       }
-
+ 
     </div>
   `;
 

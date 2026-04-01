@@ -1,9 +1,11 @@
+import API_URL from './config.js';
+
 const container = document.getElementById('gazettes-container');
 const loading = document.getElementById('loading');
 
 const fetchGazettes = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/gazettes');
+    const response = await fetch(`${API_URL}/api/gazettes`);
     const gazettes = await response.json();
 
     loading.remove();
