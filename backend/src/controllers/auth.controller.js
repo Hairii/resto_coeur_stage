@@ -41,9 +41,21 @@ export const login = async (req, res) => {
       { expiresIn: "24h" }
     );
 
-    res.json({ token });
+   res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict",
+  maxAge: 24 * 60 * 60 * 1000, // 24h en millisecondes
+});
+
+res.json({ message: "Connexion réussie" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erreur serveur (login)" });
   }
 };
+
+export const logout = (req, res) => {
+    res.clearCookie("token");
+    res.json({message: "Déconnexion réussie"});
+}
