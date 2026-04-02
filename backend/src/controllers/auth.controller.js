@@ -1,0 +1,49 @@
+import argon2 from "argon2";
+import jwt from "jsonwebtoken";
+import { findUserByEmail, createUser } from "../models/user.model.js";
+
+export const register = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const existingUser = await findUserByEmail(email);
+    if (existingUser) {
+      return res.status(409).json({ message: "Cet email est déjà utilisé" });
+    }
+
+    const hashedPassword = await argon2.hash(password);
+    await createUser(email, hashedPassword);
+
+    res.status(201).json({ message: "Compte créé" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur (register)" });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const user = await findUserByEmail(email);
+    if (!user) {
+      return res.status(401).json({ message: "Email ou mot de passe incorrect" });
+    }
+
+    const validPassword = await argon2.verify(user.password, password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Email ou mot de passe incorrect" });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur (login)" });
+  }
+};
