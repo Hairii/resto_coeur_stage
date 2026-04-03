@@ -5,7 +5,7 @@ export const getGazettes = async () => {
     const [gazette] = await db.query("SELECT * FROM gazettes");
     return gazette;
   } catch (error) {
-    console.error("erruer server (getGazettes)", error.message);
+    console.error("erreur server (getGazettes)", error.message);
     throw error;
   }
 };
@@ -30,6 +30,19 @@ export const getGazetteById = async (id) => {
     return gazette[0];
   } catch (error) {
     console.error("erruer server (getGazetteById)", error.message);
+    throw error;
+  }
+};
+
+export const updateGazette = async (id, { titre, description }) => {
+  try {
+    const [result] = await db.query(
+      "UPDATE gazettes SET titre = ?, description = ? WHERE id = ?",
+      [titre, description, id]
+    );
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error("erreur server (updateGazette)", error.message);
     throw error;
   }
 };

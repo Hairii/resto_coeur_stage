@@ -28,6 +28,19 @@ export const createEvenements = async ({
   }
 };
 
+export const updateEvenement = async (id, { titre, description, lieu, date_debut, date_fin }) => {
+  try {
+    const [result] = await db.query(
+      "UPDATE evenements SET titre = ?, description = ?, lieu = ?, date_debut = ?, date_fin = ? WHERE id = ?",
+      [titre, description, lieu, date_debut, date_fin, id]
+    );
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error("erreur server (updateEvenement)", error.message);
+    throw error;
+  }
+};
+
 export const deleteEvenements = async (id) => {
   try {
     const [evenement] = await db.query("DELETE FROM evenements  WHERE id = ?", [

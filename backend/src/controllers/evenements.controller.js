@@ -2,6 +2,7 @@ import {
   getEvenements,
   createEvenements,
   deleteEvenements,
+  updateEvenement,
 } from "../models/evenements.model.js";
 
 export const getAllEvenements = async (req, res) => {
@@ -22,6 +23,27 @@ export const addEvenements = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "erreur server (addEvenements)" });
+  }
+};
+
+export const editEvenement = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { titre, description, lieu, date_debut, date_fin } = req.body;
+    const updated = await updateEvenement(id, {
+      titre,
+      description,
+      lieu,
+      date_debut,
+      date_fin,
+    });
+    if (!updated) {
+      return res.status(404).json({ message: "Événement introuvable" });
+    }
+    res.json({ message: "Événement modifié" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur (editEvenement)" });
   }
 };
 

@@ -4,6 +4,7 @@ import {
   addGazettes,
   getOneGazette,
   removeGazette,
+  editGazette,
 } from "../controllers/gazette.controller.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
@@ -17,5 +18,6 @@ router.post("/add", authMiddleware, upload.single('fichier_pdf'), validate(gazet
 router.get("/", getAllGazettes);
 router.get("/:id", getOneGazette);
 router.delete("/delete/:id", authMiddleware, removeGazette);
+router.patch("/update/:id", authMiddleware, editGazette)
 
 export default router;

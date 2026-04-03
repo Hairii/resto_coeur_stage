@@ -3,6 +3,7 @@ import {
   getGazetteById,
   createGazette,
   deleteGazette,
+  updateGazette,
 } from "../models/gazette.model.js";
 
 export const getAllGazettes = async (req, res) => {
@@ -40,6 +41,21 @@ export const getOneGazette = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "erreur server (getOneGazette)" });
+  }
+};
+
+export const editGazette = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { titre, description } = req.body;
+    const updated = await updateGazette(id, { titre, description });
+    if (!updated) {
+      return res.status(404).json({ message: "Gazette introuvable" });
+    }
+    res.json({ message: "Gazette modifiée" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Erreur serveur (editGazette)" });
   }
 };
 
