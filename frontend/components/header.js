@@ -1,14 +1,14 @@
 (function () {
   const navLinks = [
     { label: "🏠", href: "/index.html", key: "index" },
-    { label: "L'association", href: "/html/association.html", key: "association" },
-    { label: "Nos actions", href: "/html/actions.html", key: "actions" },
-    { label: "Comment bénéficier des Restos ?", href: "/html/beneficier.html", key: "beneficier" },
-    { label: "Agir avec nous", href: "/html/agir.html", key: "agir" },
-    { label: "Partenaires", href: "/html/partenaires.html", key: "partenaires" },
+    { label: "L'association", href: "/pages/association.html", key: "association" },
+    { label: "Nos actions", href: "/pages/actions.html", key: "actions" },
+    { label: "Comment bénéficier des Restos ?", href: "/pages/beneficier.html", key: "beneficier" },
+    { label: "Agir avec nous", href: "/pages/agir.html", key: "agir" },
+    { label: "Partenaires", href: "/pages/partenaires.html", key: "partenaires" },
     { label: "Gazettes", href: "/pages/gazettes.html", key: "gazettes" },
     { label: "Événements", href: "/pages/evenements.html", key: "evenements" },
-    { label: "Contact", href: "/html/contact.html", key: "contact" },
+    { label: "Contact", href: "/pages/contact.html", key: "contact" },
     { label: "Login", href: "/pages/login.html", key: "login" },
   ];
  
@@ -40,7 +40,7 @@
     </div>
  
     <header class="px-10 py-4 flex items-center justify-between bg-white">
-      <a href="/html/index.html" class="flex items-center gap-4">
+      <a href="/index.html" class="flex items-center gap-4">
         <img src="https://ad16.restosducoeur.org/wp-content/themes/associations-dep/img/logo.svg" alt="Logo Les Restos du Cœur" class="w-24" />
         <div>
           <p class="text-xl font-extrabold uppercase tracking-wide text-black">Les Restos du Cœur</p>
@@ -48,8 +48,8 @@
         </div>
       </a>
       <div class="hidden md:flex gap-4 items-center">
-        <a href="/html/devenir-benevole.html" class="bg-jaune text-white px-5 py-3 rounded-full font-bold uppercase text-xs text-center leading-tight hover:opacity-85 transition-opacity">Devenir<br />bénévole</a>
-        <a href="/html/faire-un-don.html" class="bg-rose text-white px-5 py-3 rounded-full font-bold uppercase text-xs text-center leading-tight hover:opacity-85 transition-opacity">Faire un<br />don</a>
+        <a href="/pages/devenir-benevole.html" class="bg-jaune text-white px-5 py-3 rounded-full font-bold uppercase text-xs text-center leading-tight hover:opacity-85 transition-opacity">Devenir<br />bénévole</a>
+        <a href="/pages/faire-un-don.html" class="bg-rose text-white px-5 py-3 rounded-full font-bold uppercase text-xs text-center leading-tight hover:opacity-85 transition-opacity">Faire un<br />don</a>
       </div>
     </header>
  

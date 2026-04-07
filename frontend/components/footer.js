@@ -5,8 +5,8 @@
         <div>
           <h4 class="text-xs font-bold uppercase tracking-widest text-rose mb-4">Découvrir</h4>
           <ul class="space-y-2">
-            <li><a href="/html/beneficier.html" class="text-gray-400 text-sm hover:text-white transition-colors">Comment bénéficier des Restos ?</a></li>
-            <li><a href="/html/actions.html" class="text-gray-400 text-sm hover:text-white transition-colors">Nos actions</a></li>
+            <li><a href="/pages/beneficier.html" class="text-gray-400 text-sm hover:text-white transition-colors">Comment bénéficier des Restos ?</a></li>
+            <li><a href="/pages/actions.html" class="text-gray-400 text-sm hover:text-white transition-colors">Nos actions</a></li>
             <li><a href="/pages/gazettes.html" class="text-gray-400 text-sm hover:text-white transition-colors">Gazettes</a></li>
             <li><a href="/pages/evenements.html" class="text-gray-400 text-sm hover:text-white transition-colors">Événements</a></li>
           </ul>
@@ -14,8 +14,8 @@
         <div>
           <h4 class="text-xs font-bold uppercase tracking-widest text-rose mb-4">S'engager</h4>
           <ul class="space-y-2">
-            <li><a href="/html/faire-un-don.html" class="text-gray-400 text-sm hover:text-white transition-colors">Faire un don financier</a></li>
-            <li><a href="/html/devenir-benevole.html" class="text-gray-400 text-sm hover:text-white transition-colors">Devenir bénévole</a></li>
+            <li><a href="/pages/faire-un-don.html" class="text-gray-400 text-sm hover:text-white transition-colors">Faire un don financier</a></li>
+            <li><a href="/pages/devenir-benevole.html" class="text-gray-400 text-sm hover:text-white transition-colors">Devenir bénévole</a></li>
           </ul>
         </div>
         <div>
