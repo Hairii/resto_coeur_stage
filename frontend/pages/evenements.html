@@ -3,31 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gazettes - Les Restos du Cœur Charente</title>
+    <title>Evenements - Les Restos du Cœur Charente</title>
     <link rel="stylesheet" href="/css/output.css" />
   </head>
   <body class="bg-white text-black font-sans">
-    <!-- TITRE PAGE -->
+    
+
+    <!--TITRE PAGE-->
     <div class="bg-rose px-10 py-6">
       <h2 class="text-white font-extrabold uppercase text-2xl tracking-wide">
-        Nos Gazettes
+        Nos Événements
       </h2>
     </div>
 
-    <!-- CONTENU GAZETTES -->
+    <!--CONTENU EVENEMENTS-->
     <section class="px-10 py-12 bg-gris min-h-64">
       <div
-        id="gazettes-container"
+        id="evenements-container"
         class="grid grid-cols-1 md:grid-cols-3 gap-6"
       >
-        <!-- chargement -->
         <p id="loading" class="text-gray-400 text-sm col-span-3">
-          Chargement des gazettes...
+          Chargement des Événements...
         </p>
       </div>
     </section>
+
     <script src="/components/header.js"></script>
     <script src="/components/footer.js"></script>
-    <script type="module" src="/js/api/gazettes.api.js"></script>
+    <script type="module" src="/api/evenements.api.js"></script>
+    
   </body>
 </html>

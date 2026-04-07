@@ -1,14 +1,15 @@
 (function () {
   const navLinks = [
-    { label: "🏠", href: "/html/index.html", key: "index" },
+    { label: "🏠", href: "/index.html", key: "index" },
     { label: "L'association", href: "/html/association.html", key: "association" },
     { label: "Nos actions", href: "/html/actions.html", key: "actions" },
     { label: "Comment bénéficier des Restos ?", href: "/html/beneficier.html", key: "beneficier" },
     { label: "Agir avec nous", href: "/html/agir.html", key: "agir" },
     { label: "Partenaires", href: "/html/partenaires.html", key: "partenaires" },
-    { label: "Gazettes", href: "/html/gazettes.html", key: "gazettes" },
-    { label: "Événements", href: "/html/evenements.html", key: "evenements" },
+    { label: "Gazettes", href: "/pages/gazettes.html", key: "gazettes" },
+    { label: "Événements", href: "/pages/evenements.html", key: "evenements" },
     { label: "Contact", href: "/html/contact.html", key: "contact" },
+    { label: "Login", href: "/pages/login.html", key: "login" },
   ];
  
   const currentPath = window.location.pathname;

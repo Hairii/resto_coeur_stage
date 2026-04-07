@@ -7,8 +7,8 @@
           <ul class="space-y-2">
             <li><a href="/html/beneficier.html" class="text-gray-400 text-sm hover:text-white transition-colors">Comment bénéficier des Restos ?</a></li>
             <li><a href="/html/actions.html" class="text-gray-400 text-sm hover:text-white transition-colors">Nos actions</a></li>
-            <li><a href="/html/gazettes.html" class="text-gray-400 text-sm hover:text-white transition-colors">Gazettes</a></li>
-            <li><a href="/html/evenements.html" class="text-gray-400 text-sm hover:text-white transition-colors">Événements</a></li>
+            <li><a href="/pages/gazettes.html" class="text-gray-400 text-sm hover:text-white transition-colors">Gazettes</a></li>
+            <li><a href="/pages/evenements.html" class="text-gray-400 text-sm hover:text-white transition-colors">Événements</a></li>
           </ul>
         </div>
         <div>
