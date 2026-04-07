@@ -1,4 +1,4 @@
-import API_URL from "./config.js";
+import API_URL from "./config.api.js";
 
 const container = document.getElementById("evenements-container");
 const loading = document.getElementById("loading");
