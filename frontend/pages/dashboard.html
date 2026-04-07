@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Admin Restos du Cœur</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex min-h-screen bg-gray-100 font-sans">
+
+  <!-- Sidebar -->
+  <aside class="hidden md:flex flex-col w-60 bg-black min-h-screen p-6">
+    <div class="flex items-center gap-3 mb-8">
+      <img src="https://ad16.restosducoeur.org/wp-content/themes/associations-dep/img/logo.svg" alt="Logo" class="w-12">
+      <div>
+        <p class="text-white font-syne text-xs font-extrabold uppercase">Restos du Cœur</p>
+        <span class="text-pink-600 font-syne text-[10px] font-bold uppercase">Administration</span>
+      </div>
+    </div>
+
+    <nav class="flex flex-col gap-2 flex-1">
+      <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Menu</span>
+      <button class="nav-item flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white">📊 Tableau de bord</button>
+
+      <span class="text-gray-500 text-xs font-bold uppercase tracking-wider mt-4">Contenu</span>
+      <button class="nav-item flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white">📅 Événements</button>
+      <button class="nav-item flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white">📄 Gazettes</button>
+
+      <span class="text-gray-500 text-xs font-bold uppercase tracking-wider mt-4">Site</span>
+      <a href="/index.html" target="_blank" class="nav-item flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white">🌐 Voir le site</a>
+    </nav>
+
+    <button class="mt-auto flex items-center gap-2 text-gray-500 text-xs hover:text-pink-600">⬅ Déconnexion</button>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 flex flex-col ml-0 md:ml-60">
+    <!-- Topbar -->
+    <div class="topbar bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+      <h1 class="font-syne font-extrabold text-lg">Tableau de bord</h1>
+      <div class="bg-gray-100 border border-gray-200 rounded-full px-3 py-1 flex items-center gap-2 text-gray-500 text-sm">
+        👤 <span>admin@example.com</span>
+        <span class="bg-yellow-300 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded-full uppercase">Admin</span>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content p-6 flex-1 space-y-6">
+      <!-- Dashboard stats -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="bg-white p-4 rounded shadow border"> 
+          <p class="text-xs font-bold uppercase text-gray-500">Événements</p>
+          <p class="font-syne font-extrabold text-2xl text-pink-600">—</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow border"> 
+          <p class="text-xs font-bold uppercase text-gray-500">Gazettes</p>
+          <p class="font-syne font-extrabold text-2xl text-pink-600">—</p>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="flex gap-3 flex-wrap">
+        <button class="bg-pink-600 text-white font-syne font-bold text-xs uppercase tracking-wider px-4 py-2 rounded hover:opacity-90">+ Ajouter un événement</button>
+        <button class="border border-gray-300 text-gray-700 font-syne font-bold text-xs uppercase tracking-wider px-4 py-2 rounded hover:bg-gray-50">+ Ajouter une gazette</button>
+      </div>
+
+      <!-- Events table -->
+      <div class="bg-white rounded shadow border overflow-hidden">
+        <div class="px-4 py-3 flex items-center justify-between border-b">
+          <h2 class="font-syne font-extrabold text-sm">Événements</h2>
+          <button class="bg-pink-600 text-white font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:opacity-90">+ Ajouter</button>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100 text-gray-500 text-xs uppercase font-bold">
+            <tr>
+              <th class="px-4 py-2 text-left">Titre</th>
+              <th class="px-4 py-2 text-left">Lieu</th>
+              <th class="px-4 py-2 text-left">Date début</th>
+              <th class="px-4 py-2 text-left">Date fin</th>
+              <th class="px-4 py-2 text-left">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="5" class="text-center text-gray-400 py-4">Aucun événement pour le moment.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Gazettes table -->
+      <div class="bg-white rounded shadow border overflow-hidden">
+        <div class="px-4 py-3 flex items-center justify-between border-b">
+          <h2 class="font-syne font-extrabold text-sm">Gazettes</h2>
+          <button class="bg-pink-600 text-white font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:opacity-90">+ Ajouter</button>
+        </div>
+        <table class="w-full text-sm">
+          <thead class="bg-gray-100 text-gray-500 text-xs uppercase font-bold">
+            <tr>
+</html>
