@@ -12,6 +12,7 @@ try {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    timezone: '+00:00',
   });
 
   const connexion = await db.getConnection();

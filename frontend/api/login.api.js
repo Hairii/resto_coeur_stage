@@ -23,7 +23,7 @@ import API_URL from "./config.api.js";
  
           if (res.ok) {
             if (data.role === 'admin') {
-              window.location.href = '/admin/dashboard.html';
+              window.location.href = '/pages/dashboard.html';
             } else {
               // Utilisateur valide mais sans droits admin → on déconnecte
               await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
