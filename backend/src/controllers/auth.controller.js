@@ -36,7 +36,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
@@ -48,7 +48,7 @@ export const login = async (req, res) => {
   maxAge: 24 * 60 * 60 * 1000, // 24h en millisecondes
 });
 
-res.json({ message: "Connexion réussie" });
+res.json({ message: "Connexion réussie", role: user.role });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Erreur serveur (login)" });
@@ -59,3 +59,7 @@ export const logout = (req, res) => {
     res.clearCookie("token");
     res.json({message: "Déconnexion réussie"});
 }
+
+export const me = (req, res) => {
+  res.json({ id: req.user.id, email: req.user.email, role: req.user.role })
+};
