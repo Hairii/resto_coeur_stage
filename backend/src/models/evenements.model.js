@@ -5,7 +5,7 @@ export const getEvenements = async () => {
     const [evenement] = await db.query("SELECT * FROM evenements");
     return evenement;
   } catch (error) {
-    console.error("erruer server (getEvenements)", error.message);
+    console.error("erreur server (getEvenements)", error.message);
     throw error;
   }
 };
@@ -48,7 +48,7 @@ export const deleteEvenements = async (id) => {
     ]);
     return evenement.affectedRows > 0;
   } catch (error) {
-    console.error("erruer server (removeEvenements)", error.message);
+    console.error("erreur server (removeEvenements)", error.message);
     throw error;
   }
 };

@@ -37,6 +37,7 @@ const fetchEvenements = async () => {
 };
 
 const renderCalendar = (date) => {
+  const toLocal = (s) => { const [y,m,d] = s.slice(0,10).split('-').map(Number); return new Date(y,m-1,d); };
   const month = date.getMonth();
   const year = date.getFullYear();
 
@@ -66,10 +67,10 @@ const renderCalendar = (date) => {
   const monthStart = new Date(year, month, 1);
   const monthEnd = new Date(year, month + 1, 0);
 
-  //new evenments afficher possible polusieur mois d'affilé
+  //new evenments afficher possible plusieur mois d'affilé
   const evenementsInMonth = evenements.filter((e) => {
-    const debut = new Date(e.date_debut);
-    const fin = new Date(e.date_fin ?? e.date_debut);
+    const debut = toLocal(e.date_debut);
+    const fin = toLocal(e.date_fin ?? e.date_debut);
     return debut <= monthEnd && fin >= monthStart;
   });
 
@@ -95,8 +96,8 @@ const renderCalendar = (date) => {
           const day = i + 1;
           const dateDay = new Date(year, month, day);
           const eventsDay = evenementsInMonth.filter((e) => {
-            const debut = new Date(e.date_debut);
-            const fin = new Date(e.date_fin ?? e.date_debut);
+            const debut = toLocal(e.date_debut);
+            const fin = toLocal(e.date_fin ?? e.date_debut);
             return dateDay >= debut && dateDay <= fin;
           });
           const today = new Date();
@@ -138,7 +139,7 @@ const renderCalendar = (date) => {
                   class="text-xs px-2 py-1 rounded font-bold whitespace-nowrap"
                   style="background-color:${e._color.bg}; color:${e._color.text}"
                 >
-                  ${new Date(e.date_debut).toLocaleDateString("fr-FR")} → ${new Date(e.date_fin ?? e.date_debut).toLocaleDateString("fr-FR")}
+                  ${toLocal(e.date_debut).toLocaleDateString("fr-FR")} → ${toLocal(e.date_fin ?? e.date_debut).toLocaleDateString("fr-FR")}
                 </span>
                 <div>
                   <p class="font-bold text-sm">${e.titre}</p>
@@ -169,3 +170,17 @@ const renderCalendar = (date) => {
 };
 
 fetchEvenements();
+
+//clique sur un case ouvre pour plus de details
+container.addEventListener("click", (e) => {
+  const day = e.target.closest(".border-b");
+  if (day) {
+    const date = new Date(year, month, Number(day.textContent));
+    const eventsDay = evenements.filter((e) => {
+      const debut = toLocal(e.date_debut);
+      const fin = toLocal(e.date_fin ?? e.date_debut);
+      return date >= debut && date <= fin;
+    });
+    console.log("evenements du jour", eventsDay);
+  }
+});

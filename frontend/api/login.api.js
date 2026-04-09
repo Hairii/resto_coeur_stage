@@ -4,7 +4,7 @@ import API_URL from "./config.api.js";
         e.preventDefault();
         const btn = document.getElementById('submit-btn');
         const err = document.getElementById('error-msg');
-        err.style.display = 'none';
+        err.classList.add('hidden');
         btn.disabled = true;
         btn.textContent = 'Connexion...';
  
@@ -28,15 +28,15 @@ import API_URL from "./config.api.js";
               // Utilisateur valide mais sans droits admin → on déconnecte
               await fetch(`${API_URL}/api/auth/logout`, { method: 'POST', credentials: 'include' });
               err.textContent = 'Accès refusé : droits administrateur requis.';
-              err.style.display = 'block';
+              err.classList.remove('hidden');
             }
           } else {
             err.textContent = data.message ?? 'Email ou mot de passe incorrect.';
-            err.style.display = 'block';
+            err.classList.remove('hidden');
           }
         } catch {
           err.textContent = 'Erreur de connexion au serveur.';
-          err.style.display = 'block';
+          err.classList.remove('hidden');
         }
  
         btn.disabled = false;

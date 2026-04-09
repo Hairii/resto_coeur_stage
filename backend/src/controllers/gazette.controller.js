@@ -62,8 +62,8 @@ export const editGazette = async (req, res) => {
 export const removeGazette = async (req, res) => {
   try {
     const { id } = req.params;
-    const removeGazette = await deleteGazette(id);
-    if (!removeGazette) {
+    const deleted = await deleteGazette(id);
+    if (!deleted) {
       res.status(404).json({ message: "Gazette introuvable" });
     } else {
       res.json({ message: "Gazette supprimée" });

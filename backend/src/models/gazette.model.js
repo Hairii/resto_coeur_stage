@@ -29,7 +29,7 @@ export const getGazetteById = async (id) => {
     ]);
     return gazette[0];
   } catch (error) {
-    console.error("erruer server (getGazetteById)", error.message);
+    console.error("erreur server (getGazetteById)", error.message);
     throw error;
   }
 };
@@ -54,7 +54,7 @@ export const deleteGazette = async (id) => {
     ]);
     return gazette.affectedRows > 0;
   } catch (error) {
-    console.error("erruer server (deleteGazette)", error.message);
+    console.error("erreur server (deleteGazette)", error.message);
     throw error;
   }
 };
