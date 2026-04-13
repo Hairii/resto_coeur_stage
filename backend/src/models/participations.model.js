@@ -17,3 +17,21 @@ export const getMyParticipations = async (userId) => {
   );
   return rows;
 };
+
+export const upsertParticipation = async (userId, evenementId, { statut, heure_debut, heure_fin }) => {
+  await db.query(
+    `INSERT INTO participations (user_id, evenement_id, statut, heure_debut, heure_fin)
+     VALUES (?, ?, ?, ?, ?)
+     ON DUPLICATE KEY UPDATE statut = ?, heure_debut = ?, heure_fin = ?, updated_at = NOW()`,
+    [userId, evenementId, statut, heure_debut, heure_fin,
+     statut, heure_debut, heure_fin]
+  );
+};
+
+export const deleteParticipation = async (userId, evenementId) => {
+  const [result] = await db.query(
+    "DELETE FROM participations WHERE user_id = ? AND evenement_id = ?",
+    [userId, evenementId]
+  );
+  return result.affectedRows > 0;
+};
