@@ -37,7 +37,10 @@ const fetchEvenements = async () => {
 };
 
 const renderCalendar = (date) => {
-  const toLocal = (s) => { const [y,m,d] = s.slice(0,10).split('-').map(Number); return new Date(y,m-1,d); };
+  const toLocal = (s) => {
+    const [y, m, d] = s.slice(0, 10).split("-").map(Number);
+    return new Date(y, m - 1, d);
+  };
   const month = date.getMonth();
   const year = date.getFullYear();
 
@@ -113,6 +116,8 @@ const renderCalendar = (date) => {
                   class="text-xs rounded px-1 py-0.5 mt-1 truncate"
                   style="background-color:${e._color.bg}; color:${e._color.text}"
                   title="${e.titre}"
+                  data-ev-id="${e.id}"
+                  data-ev-titre="${e.titre}"
                 >
                   ${e.titre}
                 </div>
@@ -173,14 +178,14 @@ fetchEvenements();
 
 //clique sur un case ouvre pour plus de details
 container.addEventListener("click", (e) => {
-  const day = e.target.closest(".border-b");
-  if (day) {
-    const date = new Date(year, month, Number(day.textContent));
-    const eventsDay = evenements.filter((e) => {
-      const debut = toLocal(e.date_debut);
-      const fin = toLocal(e.date_fin ?? e.date_debut);
-      return date >= debut && date <= fin;
-    });
-    console.log("evenements du jour", eventsDay);
+  const evDiv = e.target.closest("[data-ev-id]");
+  if (evDiv) {
+    container.dispatchEvent(new CustomEvent("open-participation", {
+      detail: {
+        id: evDiv.dataset.evId,
+        titre: evDiv.dataset.evTitre,
+      },
+      bubbles: true,
+    }));
   }
 });

@@ -17,8 +17,24 @@ export const getAllEvenements = async (req, res) => {
 
 export const addEvenements = async (req, res) => {
   try {
-    const { titre, description, lieu, date_debut, date_fin } = req.body;
-    await createEvenements({ titre, description, lieu, date_debut, date_fin });
+    const {
+      titre,
+      description,
+      lieu,
+      date_debut,
+      date_fin,
+      heure_debut,
+      heure_fin,
+    } = req.body;
+    await createEvenements({
+      titre,
+      description,
+      lieu,
+      date_debut,
+      date_fin,
+      heure_debut,
+      heure_fin,
+    });
     res.status(201).json({ message: "Evenement ajouté" });
   } catch (error) {
     console.error(error);
@@ -29,13 +45,23 @@ export const addEvenements = async (req, res) => {
 export const editEvenement = async (req, res) => {
   try {
     const { id } = req.params;
-    const { titre, description, lieu, date_debut, date_fin } = req.body;
+    const {
+      titre,
+      description,
+      lieu,
+      date_debut,
+      date_fin,
+      heure_debut,
+      heure_fin,
+    } = req.body;
     const updated = await updateEvenement(id, {
       titre,
       description,
       lieu,
       date_debut,
       date_fin,
+      heure_debut,
+      heure_fin,
     });
     if (!updated) {
       return res.status(404).json({ message: "Événement introuvable" });
