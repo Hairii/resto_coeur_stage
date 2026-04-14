@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import gazetteRoutes from "./routes/gazette.routes.js";
 import evenementRoutes from "./routes/evenements.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import participationRoutes from "./routes/participations.routes.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -37,6 +38,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use("/api/gazettes", gazetteRoutes);
 app.use("/api/evenements", evenementRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/participations", participationRoutes);
 
 app.use(express.static(path.join(__dirname, "../../frontend/html")));
 app.use(express.static(path.join(__dirname, "../../frontend")));

@@ -16,11 +16,21 @@ export const createEvenements = async ({
   lieu,
   date_debut,
   date_fin,
+  heure_debut,
+  heure_fin,
 }) => {
   try {
     await db.query(
-      "INSERT INTO evenements (titre, description, lieu, date_debut, date_fin) VALUES (?, ?, ?, ?, ?)",
-      [titre, description, lieu, date_debut, date_fin],
+      "INSERT INTO evenements (titre, description, lieu, date_debut, date_fin, heure_debut, heure_fin) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [
+        titre,
+        description,
+        lieu,
+        date_debut,
+        date_fin,
+        heure_debut || null,
+        heure_fin || null,
+      ],
     );
   } catch (error) {
     console.error("erreur server (createEvenements )", error.message);
@@ -28,11 +38,11 @@ export const createEvenements = async ({
   }
 };
 
-export const updateEvenement = async (id, { titre, description, lieu, date_debut, date_fin }) => {
+export const updateEvenement = async (id, { titre, description, lieu, date_debut, date_fin, heure_debut, heure_fin }) => {
   try {
     const [result] = await db.query(
-      "UPDATE evenements SET titre = ?, description = ?, lieu = ?, date_debut = ?, date_fin = ? WHERE id = ?",
-      [titre, description, lieu, date_debut, date_fin, id]
+      "UPDATE evenements SET titre = ?, description = ?, lieu = ?, date_debut = ?, date_fin = ?, heure_debut = ?, heure_fin = ? WHERE id = ?",
+      [titre, description, lieu, date_debut, date_fin, heure_debut || null, heure_fin || null, id]
     );
     return result.affectedRows > 0;
   } catch (error) {
