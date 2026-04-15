@@ -5,6 +5,11 @@ let editingGazetteId = null;
 let confirmCallback = null;
 let cachedEvenements = [];
 
+ const formatHeure= (h) => {
+  if (!h) return "";
+  return h.slice(0, 5); // HH:mm que les heures et les minutes
+};
+
 //verifie si admin
 const checkAuth = async () => {
   try {
@@ -87,27 +92,35 @@ document.querySelectorAll("[data-open]").forEach((btn) => {
 
 document.querySelectorAll("[data-open='modal-evenement']").forEach((btn) => {
   btn.addEventListener("click", () => {
-    if (!btn.closest('td')) {
+    if (!btn.closest("td")) {
       editingEvenementId = null;
-      document.getElementById('modal-ev-title').textContent = 'Ajouter un événement';
-      ['ev-titre','ev-description','ev-lieu','ev-date-debut','ev-date-fin']
-        .forEach(id => document.getElementById(id).value = '');
-      document.getElementById('ev-error').classList.add('hidden');
+      document.getElementById("modal-ev-title").textContent =
+        "Ajouter un événement";
+      [
+        "ev-titre",
+        "ev-description",
+        "ev-lieu",
+        "ev-date-debut",
+        "ev-date-fin",
+      ].forEach((id) => (document.getElementById(id).value = ""));
+      document.getElementById("ev-error").classList.add("hidden");
     }
   });
 });
 
 document.querySelectorAll("[data-open='modal-gazette']").forEach((btn) => {
   btn.addEventListener("click", () => {
-    if (!btn.closest('td')) {
+    if (!btn.closest("td")) {
       editingGazetteId = null;
-      document.getElementById('modal-gz-title').textContent = 'Ajouter une gazette';
-      document.getElementById('gz-titre').value = '';
-      document.getElementById('gz-description').value = '';
-      document.getElementById('gz-fichier').value = '';
-      document.getElementById('gz-file-name').textContent = 'Choisir un fichier PDF';
-      document.getElementById('gz-file-group').classList.remove('hidden');
-      document.getElementById('gz-error').classList.add('hidden');
+      document.getElementById("modal-gz-title").textContent =
+        "Ajouter une gazette";
+      document.getElementById("gz-titre").value = "";
+      document.getElementById("gz-description").value = "";
+      document.getElementById("gz-fichier").value = "";
+      document.getElementById("gz-file-name").textContent =
+        "Choisir un fichier PDF";
+      document.getElementById("gz-file-group").classList.remove("hidden");
+      document.getElementById("gz-error").classList.add("hidden");
     }
   });
 });
@@ -117,7 +130,7 @@ document.querySelectorAll("[data-close]").forEach((btn) => {
   btn.addEventListener("click", () => closeModal(btn.dataset.close));
 });
 
-// Clic en dehors d'un modal ferme
+// Clic en dehors d'une modal ferme
 document.querySelectorAll("[id^='modal-']").forEach((modal) => {
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal(modal.id);
@@ -182,6 +195,7 @@ const loadEvenements = async () => {
         <td class="px-4 py-3 text-gray-500">${fmtDate(e.date_fin)}</td>
         <td class="px-4 py-3">
           <div class="flex gap-2">
+            <button data-id="${e.id}" class="ev-participants border border-blue-200 text-blue-600 bg-blue-50 font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:bg-blue-100">👥 Participants</button>
             <button data-id="${e.id}" class="ev-edit border border-gray-300 text-gray-700 font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:bg-gray-100">✏️ Modifier</button>
             <button data-id="${e.id}" class="ev-delete bg-red-100 text-red-600 border border-red-200 font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:bg-red-200">🗑 Suppr.</button>
           </div>
@@ -205,6 +219,10 @@ const loadEvenements = async () => {
           ev.date_debut?.slice(0, 10) ?? "";
         document.getElementById("ev-date-fin").value =
           ev.date_fin?.slice(0, 10) ?? "";
+        document.getElementById("ev-heure-debut").value =
+          ev.heure_debut?.slice(0, 5) ?? "";
+        document.getElementById("ev-heure-fin").value =
+          ev.heure_fin?.slice(0, 5) ?? "";
         openModal("modal-evenement");
       });
     });
@@ -227,6 +245,38 @@ const loadEvenements = async () => {
         });
       });
     });
+
+    document.querySelectorAll(".ev-participants").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const res = await fetch(
+          `${API_URL}/api/participations/evenement/${btn.dataset.id}`,
+          {
+            credentials: "include",
+          },
+        );
+        const participants = await res.json();
+        const list = document.getElementById("participants-list");
+        if (!participants.length) {
+          list.innerHTML =
+            '<p class="text-gray-400 text-sm">Aucun participant enregistré.</p>';
+        } else {
+          list.innerHTML = participants
+            .map(
+              (p) => `
+        <div class="flex items-center justify-between border rounded px-3 py-2 text-sm">
+          <span class="font-medium">${p.email}</span>
+          <span class="${p.statut === "oui" ? "text-green-600" : "text-red-500"} font-bold text-xs">
+            ${p.statut === "oui" ? "✅ Participant" : "❌ Absent"}
+          </span>
+          <span class="text-gray-400 text-xs">${formatHeure(p.heure_debut ?? "—")} → ${formatHeure(p.heure_fin ?? "—")}</span>
+        </div>
+      `,
+            )
+            .join("");
+        }
+        openModal("modal-participants");
+      });
+    });
   } catch {
     showToast("Erreur chargement événements", "error");
   }
@@ -239,6 +289,8 @@ document.getElementById("ev-submit").addEventListener("click", async () => {
   const lieu = document.getElementById("ev-lieu").value.trim();
   const date_debut = document.getElementById("ev-date-debut").value;
   const date_fin = document.getElementById("ev-date-fin").value;
+  const heure_debut = document.getElementById("ev-heure-debut").value;
+  const heure_fin = document.getElementById("ev-heure-fin").value;
   const errEl = document.getElementById("ev-error");
 
   if (!titre || !date_debut) {
@@ -262,6 +314,8 @@ document.getElementById("ev-submit").addEventListener("click", async () => {
       lieu,
       date_debut,
       date_fin: date_fin || null,
+      heure_debut: heure_debut || null,
+      heure_fin: heure_fin || null,
     }),
   });
 
@@ -277,6 +331,8 @@ document.getElementById("ev-submit").addEventListener("click", async () => {
     document.getElementById("ev-lieu").value = "";
     document.getElementById("ev-date-debut").value = "";
     document.getElementById("ev-date-fin").value = "";
+    document.getElementById("ev-heure-debut").value = "";
+    document.getElementById("ev-heure-fin").value = "";
     showToast(wasEditing ? "Événement modifié !" : "Événement ajouté !");
     loadEvenements();
   } else {
@@ -406,8 +462,8 @@ document.getElementById("gz-submit").addEventListener("click", async () => {
   if (res.ok) {
     closeModal("modal-gazette");
     // reset
-    const wasEditingGz = editingGazetteId;  
-editingGazetteId = null;
+    const wasEditingGz = editingGazetteId;
+    editingGazetteId = null;
     document.getElementById("modal-gz-title").textContent =
       "Ajouter une gazette";
     document.getElementById("gz-titre").value = "";

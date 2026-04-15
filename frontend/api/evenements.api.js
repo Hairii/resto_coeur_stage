@@ -6,6 +6,13 @@ const loading = document.getElementById("loading");
 let evenements = [];
 let currentDate = new Date();
 
+
+
+ const formatHeure= (h) => {
+  if (!h) return "";
+  return h.slice(0, 5); // HH:mm que les heures et les minutes
+};
+
 // couleurs differentes
 const evenementsCOLORS = [
   { bg: "#e5007d", text: "#fff" }, // rose
@@ -145,10 +152,15 @@ const renderCalendar = (date) => {
                   style="background-color:${e._color.bg}; color:${e._color.text}"
                 >
                   ${toLocal(e.date_debut).toLocaleDateString("fr-FR")} → ${toLocal(e.date_fin ?? e.date_debut).toLocaleDateString("fr-FR")}
+                  
                 </span>
                 <div>
                   <p class="font-bold text-sm">${e.titre}</p>
-                  <p class="text-xs text-gray-400">${e.lieu ?? ""} ${e.description ?? ""}</p>
+                
+
+
+
+                  <p class="text-xs text-black"> ${e.lieu ?? ""} ${formatHeure(e.heure_debut)} ${e.heure_fin ? "→ " + formatHeure(e.heure_fin) : ""}</p>
                 </div>
               </div>
             `,
