@@ -27,4 +27,11 @@ export const  evenementsSchema = Joi.object({
     "date.format": "La date de fin doit être au format (YYYY-MM-DD)",
     "date.min": "La date de fin doit être égale ou postérieure à la date de début",
   }),
+  heure_debut: Joi.string().pattern(/^([01]\d|2[0-3]):([0-5]\d)$/).allow(null, "").messages({
+      "string.pattern.base": "L'heure de début doit être au format HH:mm",
+    }),
+
+  heure_fin: Joi.string().pattern(/^([01]\d|2[0-3]):([0-5]\d)$/).allow(null, "").messages({
+      "string.pattern.base": "L'heure de fin doit être au format HH:mm",
+    }),
 })

@@ -71,7 +71,7 @@
  
   document.body.insertAdjacentHTML("afterbegin", html);
  
-  // Burger logic intégrée
+  // Burger menu
   const burger = document.getElementById("burger");
   const mobileMenu = document.getElementById("mobileMenu");
   const b1 = document.getElementById("b1");
