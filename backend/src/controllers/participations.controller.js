@@ -7,7 +7,6 @@ import {
 
 export const getParticipants = async (req, res) => {
   try {
-    if (req.user.role !== "admin") return res.status(403).json({ message: "Accès refusé" });
     const rows = await getParticipationsByEvenement(req.params.id);
     res.json(rows);
   } catch (error) {
@@ -29,7 +28,9 @@ export const myParticipations = async (req, res) => {
 export const saveParticipation = async (req, res) => {
   try {
     const { statut, heure_debut, heure_fin } = req.body;
-    if (!statut) return res.status(400).json({ message: "Statut obligatoire" });
+    if (!statut || !["oui", "non"].includes(statut)) {
+      return res.status(400).json({ message: "Statut invalide (oui | non)" });
+    }
     await upsertParticipation(req.user.id, req.params.evenementId, {
       statut,
       heure_debut: heure_debut || null,
@@ -45,7 +46,9 @@ export const saveParticipation = async (req, res) => {
 export const removeParticipation = async (req, res) => {
   try {
     const deleted = await deleteParticipation(req.user.id, req.params.evenementId);
-    if (!deleted) return res.status(404).json({ message: "Participation introuvable" });
+    if (!deleted) {
+      return res.status(404).json({ message: "Participation introuvable" });
+    }
     res.json({ message: "Participation annulée" });
   } catch (error) {
     console.error(error);

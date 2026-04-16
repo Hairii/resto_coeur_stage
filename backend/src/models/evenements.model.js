@@ -2,8 +2,10 @@ import db from "../config/db.js";
 
 export const getEvenements = async () => {
   try {
-    const [evenement] = await db.query("SELECT * FROM evenements");
-    return evenement;
+    const [evenements] = await db.query(
+      "SELECT * FROM evenements ORDER BY date_debut ASC",
+    );
+    return evenements;
   } catch (error) {
     console.error("erreur server (getEvenements)", error.message);
     throw error;
@@ -24,25 +26,37 @@ export const createEvenements = async ({
       "INSERT INTO evenements (titre, description, lieu, date_debut, date_fin, heure_debut, heure_fin) VALUES (?, ?, ?, ?, ?, ?, ?)",
       [
         titre,
-        description,
-        lieu,
+        description || null,
+        lieu || null,
         date_debut,
-        date_fin,
+        date_fin || null,
         heure_debut || null,
         heure_fin || null,
       ],
     );
   } catch (error) {
-    console.error("erreur server (createEvenements )", error.message);
+    console.error("erreur server (createEvenements)", error.message);
     throw error;
   }
 };
 
-export const updateEvenement = async (id, { titre, description, lieu, date_debut, date_fin, heure_debut, heure_fin }) => {
+export const updateEvenement = async (
+  id,
+  { titre, description, lieu, date_debut, date_fin, heure_debut, heure_fin },
+) => {
   try {
     const [result] = await db.query(
       "UPDATE evenements SET titre = ?, description = ?, lieu = ?, date_debut = ?, date_fin = ?, heure_debut = ?, heure_fin = ? WHERE id = ?",
-      [titre, description, lieu, date_debut, date_fin, heure_debut || null, heure_fin || null, id]
+      [
+        titre,
+        description || null,
+        lieu || null,
+        date_debut,
+        date_fin || null,
+        heure_debut || null,
+        heure_fin || null,
+        id,
+      ],
     );
     return result.affectedRows > 0;
   } catch (error) {
@@ -53,12 +67,12 @@ export const updateEvenement = async (id, { titre, description, lieu, date_debut
 
 export const deleteEvenements = async (id) => {
   try {
-    const [evenement] = await db.query("DELETE FROM evenements  WHERE id = ?", [
+    const [result] = await db.query("DELETE FROM evenements WHERE id = ?", [
       id,
     ]);
-    return evenement.affectedRows > 0;
+    return result.affectedRows > 0;
   } catch (error) {
-    console.error("erreur server (removeEvenements)", error.message);
+    console.error("erreur server (deleteEvenements)", error.message);
     throw error;
   }
 };
