@@ -1252,6 +1252,11 @@
     }
   }
 }
+@layer base {
+  button, a, [role="button"] {
+    cursor: pointer;
+  }
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;

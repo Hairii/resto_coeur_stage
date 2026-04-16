@@ -42,10 +42,6 @@ modal.innerHTML = `
     </div>
     <div class="px-6 py-5 space-y-4">
       <p class="text-xs text-gray-500">Indiquez votre participation et vos horaires :</p>
-      <div class="flex gap-3">
-        <button id="part-oui" class="flex-1 py-2 rounded font-bold text-xs uppercase border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 hover:text-green-700 transition-colors">✅ Je participe</button>
-        <button id="part-non" class="flex-1 py-2 rounded font-bold text-xs uppercase border-2 border-gray-200 hover:border-red-400 hover:bg-red-50 hover:text-red-600 transition-colors">❌ Je ne participe pas</button>
-      </div>
       <div id="part-heures" class="grid grid-cols-2 gap-4">
         <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">Heure début</label>
@@ -56,6 +52,11 @@ modal.innerHTML = `
           <input id="part-heure-fin" type="time" class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-rose" />
         </div>
       </div>
+      <div class="flex gap-3">
+        <button id="part-oui" class="flex-1 py-2 rounded font-bold text-xs uppercase border-2 border-gray-200 hover:border-green-500 hover:bg-green-50 hover:text-green-700 transition-colors">✅ Je participe</button>
+        <button id="part-non" class="flex-1 py-2 rounded font-bold text-xs uppercase border-2 border-gray-200 hover:border-red-400 hover:bg-red-50 hover:text-red-600 transition-colors">❌ Je ne participe pas</button>
+      </div>
+      
       <p id="part-statut-actuel" class="text-xs text-gray-400 italic"></p>
       <p id="part-error" class="hidden text-xs text-rose"></p>
     </div>

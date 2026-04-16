@@ -120,7 +120,7 @@ const renderCalendar = (date) => {
                 .map(
                   (e) => `
                 <div
-                  class="text-xs rounded px-1 py-0.5 mt-1 truncate"
+                  class="text-xs rounded px-1 py-0.5 mt-1 truncate cursor-pointer"
                   style="background-color:${e._color.bg}; color:${e._color.text}"
                   title="${e.titre}"
                   data-ev-id="${e.id}"
