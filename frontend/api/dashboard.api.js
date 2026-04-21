@@ -1,165 +1,14 @@
 import API_URL from "./config.api.js";
+import { openModal, closeModal, showToast, openConfirm } from "../modal/dashboard.modal.js";
 
 let editingEvenementId = null;
 let editingGazetteId = null;
-let confirmCallback = null;
 let cachedEvenements = [];
 
- const formatHeure= (h) => {
+const formatHeure = (h) => {
   if (!h) return "";
-  return h.slice(0, 5); // HH:mm que les heures et les minutes
+  return h.slice(0, 5);
 };
-
-//verifie si admin
-const checkAuth = async () => {
-  try {
-    const res = await fetch(`${API_URL}/api/auth/me`, {
-      credentials: "include",
-    });
-    if (!res.ok) throw new Error();
-    const user = await res.json();
-    if (user.role !== "admin") throw new Error();
-    document.getElementById("user-email").textContent = user.email;
-  } catch {
-    window.location.href = "/pages/login.html";
-  }
-};
-
-// ── NAVIGATION ──
-const views = ["dashboard", "evenements", "gazettes"];
-const titles = {
-  dashboard: "Tableau de bord",
-  evenements: "Événements",
-  gazettes: "Gazettes",
-};
-
-const switchView = (name) => {
-  // Affiche/cache les vues
-  views.forEach((v) => {
-    document.getElementById(`view-${v}`).classList.toggle("hidden", v !== name);
-  });
-
-  // Met à jour la sidebar
-  document.querySelectorAll(".nav-item[data-view]").forEach((btn) => {
-    const isActive = btn.dataset.view === name;
-    btn.classList.toggle("text-white", isActive);
-    btn.classList.toggle("bg-gray-900", isActive);
-    btn.classList.toggle("border-l-2", isActive);
-    btn.classList.toggle("border-pink-600", isActive);
-    btn.classList.toggle("rounded-r", isActive);
-    btn.classList.toggle("text-gray-400", !isActive);
-    btn.classList.toggle("rounded", !isActive);
-  });
-
-  // Met à jour le titre de la topbar
-  document.getElementById("page-title").textContent = titles[name];
-};
-
-// ── MODALS ──
-const openModal = (id) =>
-  document.getElementById(id).classList.remove("hidden");
-const closeModal = (id) => document.getElementById(id).classList.add("hidden");
-
-// ── notification ──
-const showToast = (msg, type = "success") => {
-  const toast = document.getElementById("toast");
-  toast.textContent = (type === "success" ? "✅ " : "❌ ") + msg;
-  toast.classList.remove("opacity-0", "translate-y-8");
-  toast.classList.add("opacity-100", "translate-y-0");
-  setTimeout(() => {
-    toast.classList.add("opacity-0", "translate-y-8");
-    toast.classList.remove("opacity-100", "translate-y-0");
-  }, 3000);
-};
-
-// ── confirmer suppresion ──
-const openConfirm = (callback) => {
-  confirmCallback = callback;
-  openModal("modal-confirm");
-};
-
-// ── EVENT LISTENERS ──
-
-// Sidebar navigation
-document.querySelectorAll(".nav-item[data-view]").forEach((btn) => {
-  btn.addEventListener("click", () => switchView(btn.dataset.view));
-});
-
-// ouvre le modal correspondant
-document.querySelectorAll("[data-open]").forEach((btn) => {
-  btn.addEventListener("click", () => openModal(btn.dataset.open));
-});
-
-document.querySelectorAll("[data-open='modal-evenement']").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!btn.closest("td")) {
-      editingEvenementId = null;
-      document.getElementById("modal-ev-title").textContent =
-        "Ajouter un événement";
-      [
-        "ev-titre",
-        "ev-description",
-        "ev-lieu",
-        "ev-date-debut",
-        "ev-date-fin",
-      ].forEach((id) => (document.getElementById(id).value = ""));
-      document.getElementById("ev-error").classList.add("hidden");
-    }
-  });
-});
-
-document.querySelectorAll("[data-open='modal-gazette']").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!btn.closest("td")) {
-      editingGazetteId = null;
-      document.getElementById("modal-gz-title").textContent =
-        "Ajouter une gazette";
-      document.getElementById("gz-titre").value = "";
-      document.getElementById("gz-description").value = "";
-      document.getElementById("gz-fichier").value = "";
-      document.getElementById("gz-file-name").textContent =
-        "Choisir un fichier PDF";
-      document.getElementById("gz-file-group").classList.remove("hidden");
-      document.getElementById("gz-error").classList.add("hidden");
-    }
-  });
-});
-
-//ferme le modal correspondant
-document.querySelectorAll("[data-close]").forEach((btn) => {
-  btn.addEventListener("click", () => closeModal(btn.dataset.close));
-});
-
-// Clic en dehors d'une modal ferme
-document.querySelectorAll("[id^='modal-']").forEach((modal) => {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal(modal.id);
-  });
-});
-
-// confirmer suppression
-document.getElementById("confirm-ok").addEventListener("click", () => {
-  if (confirmCallback) confirmCallback();
-  closeModal("modal-confirm");
-  confirmCallback = null;
-});
-
-// deconnexion
-document.getElementById("logout-btn").addEventListener("click", async () => {
-  await fetch(`${API_URL}/api/auth/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-  window.location.href = "/pages/login.html";
-});
-
-// Fichier PDF gazette = affiche le nom du fichier choisi
-document.getElementById("gz-fichier").addEventListener("change", (e) => {
-  document.getElementById("gz-file-name").textContent =
-    e.target.files[0]?.name ?? "Choisir un fichier PDF";
-});
-
-await checkAuth();
 
 const fmtDate = (str) => {
   if (!str) return "—";
@@ -168,16 +17,14 @@ const fmtDate = (str) => {
   return `${String(d).padStart(2, "0")}/${String(m).padStart(2, "0")}/${y}`;
 };
 
-// ── ÉVÉNEMENTS ──
+
+
 const loadEvenements = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/evenements`, {
-      credentials: "include",
-    });
+    const res = await fetch(`${API_URL}/api/evenements`, { credentials: "include" });
     cachedEvenements = await res.json();
 
-    document.getElementById("stat-evenements").textContent =
-      cachedEvenements.length;
+    document.getElementById("stat-evenements").textContent = cachedEvenements.length;
 
     const tbody = document.getElementById("evenements-tbody");
     if (!cachedEvenements.length) {
@@ -185,9 +32,7 @@ const loadEvenements = async () => {
       return;
     }
 
-    tbody.innerHTML = cachedEvenements
-      .map(
-        (e) => `
+    tbody.innerHTML = cachedEvenements.map((e) => `
       <tr class="border-b last:border-0 hover:bg-gray-50">
         <td class="px-4 py-3 font-medium">${e.titre}</td>
         <td class="px-4 py-3 text-gray-500">${e.lieu ?? "—"}</td>
@@ -201,78 +46,59 @@ const loadEvenements = async () => {
           </div>
         </td>
       </tr>
-    `,
-      )
-      .join("");
+    `).join("");
 
-    // Boutons modifier
+  
     document.querySelectorAll(".ev-edit").forEach((btn) => {
       btn.addEventListener("click", () => {
         const ev = cachedEvenements.find((e) => e.id === +btn.dataset.id);
         editingEvenementId = ev.id;
-        document.getElementById("modal-ev-title").textContent =
-          "Modifier l'événement";
+        document.getElementById("modal-ev-title").textContent = "Modifier l'événement";
         document.getElementById("ev-titre").value = ev.titre;
         document.getElementById("ev-description").value = ev.description ?? "";
         document.getElementById("ev-lieu").value = ev.lieu ?? "";
-        document.getElementById("ev-date-debut").value =
-          ev.date_debut?.slice(0, 10) ?? "";
-        document.getElementById("ev-date-fin").value =
-          ev.date_fin?.slice(0, 10) ?? "";
-        document.getElementById("ev-heure-debut").value =
-          ev.heure_debut?.slice(0, 5) ?? "";
-        document.getElementById("ev-heure-fin").value =
-          ev.heure_fin?.slice(0, 5) ?? "";
+        document.getElementById("ev-date-debut").value = ev.date_debut?.slice(0, 10) ?? "";
+        document.getElementById("ev-date-fin").value = ev.date_fin?.slice(0, 10) ?? "";
+        document.getElementById("ev-heure-debut").value = ev.heure_debut?.slice(0, 5) ?? "";
+        document.getElementById("ev-heure-fin").value = ev.heure_fin?.slice(0, 5) ?? "";
         openModal("modal-evenement");
       });
     });
 
-    // Boutons supprimer
+
     document.querySelectorAll(".ev-delete").forEach((btn) => {
       btn.addEventListener("click", () => {
         openConfirm(async () => {
-          const res = await fetch(
-            `${API_URL}/api/evenements/delete/${btn.dataset.id}`,
-            {
-              method: "DELETE",
-              credentials: "include",
-            },
-          );
-          if (res.ok) {
-            showToast("Événement supprimé");
-            loadEvenements();
-          } else showToast("Erreur lors de la suppression", "error");
+          const res = await fetch(`${API_URL}/api/evenements/delete/${btn.dataset.id}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          if (res.ok) { showToast("Événement supprimé"); loadEvenements(); }
+          else showToast("Erreur lors de la suppression", "error");
         });
       });
     });
 
+   
     document.querySelectorAll(".ev-participants").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        const res = await fetch(
-          `${API_URL}/api/participations/evenement/${btn.dataset.id}`,
-          {
-            credentials: "include",
-          },
-        );
+        const res = await fetch(`${API_URL}/api/participations/evenement/${btn.dataset.id}`, {
+          credentials: "include",
+        });
         const participants = await res.json();
         const list = document.getElementById("participants-list");
         if (!participants.length) {
-          list.innerHTML =
-            '<p class="text-gray-400 text-sm">Aucun participant enregistré.</p>';
+          list.innerHTML = '<p class="text-gray-400 text-sm">Aucun participant enregistré.</p>';
         } else {
-          list.innerHTML = participants
-            .map(
-              (p) => `
-        <div class="flex items-center justify-between border rounded px-3 py-2 text-sm">
-          <span class="font-medium">${p.email}</span>
-          <span class="${p.statut === "oui" ? "text-green-600" : "text-red-500"} font-bold text-xs">
-            ${p.statut === "oui" ? "✅ Participant" : "❌ Absent"}
-          </span>
-          <span class="text-gray-400 text-xs">${formatHeure(p.heure_debut ?? "—")} → ${formatHeure(p.heure_fin ?? "—")}</span>
-        </div>
-      `,
-            )
-            .join("");
+          list.innerHTML = participants.map((p) => `
+            <div class="flex items-center justify-between border rounded px-3 py-2 text-sm">
+              <span class="font-medium">${p.email}</span>
+              <span class="${p.statut === "oui" ? "text-green-600" : "text-red-500"} font-bold text-xs">
+                ${p.statut === "oui" ? "✅ Participant" : "❌ Absent"}
+              </span>
+              <span class="text-gray-400 text-xs">${formatHeure(p.heure_debut ?? "—")} → ${formatHeure(p.heure_fin ?? "—")}</span>
+            </div>
+          `).join("");
         }
         openModal("modal-participants");
       });
@@ -282,7 +108,7 @@ const loadEvenements = async () => {
   }
 };
 
-// Soumettre ajout/modification
+
 document.getElementById("ev-submit").addEventListener("click", async () => {
   const titre = document.getElementById("ev-titre").value.trim();
   const description = document.getElementById("ev-description").value.trim();
@@ -308,31 +134,13 @@ document.getElementById("ev-submit").addEventListener("click", async () => {
     method: editingEvenementId ? "PATCH" : "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
-    body: JSON.stringify({
-      titre,
-      description,
-      lieu,
-      date_debut,
-      date_fin: date_fin || null,
-      heure_debut: heure_debut || null,
-      heure_fin: heure_fin || null,
-    }),
+    body: JSON.stringify({ titre, description, lieu, date_debut, date_fin: date_fin || null, heure_debut: heure_debut || null, heure_fin: heure_fin || null }),
   });
 
   if (res.ok) {
-    closeModal("modal-evenement");
-    // reset
     const wasEditing = editingEvenementId;
     editingEvenementId = null;
-    document.getElementById("modal-ev-title").textContent =
-      "Ajouter un événement";
-    document.getElementById("ev-titre").value = "";
-    document.getElementById("ev-description").value = "";
-    document.getElementById("ev-lieu").value = "";
-    document.getElementById("ev-date-debut").value = "";
-    document.getElementById("ev-date-fin").value = "";
-    document.getElementById("ev-heure-debut").value = "";
-    document.getElementById("ev-heure-fin").value = "";
+    closeModal("modal-evenement");
     showToast(wasEditing ? "Événement modifié !" : "Événement ajouté !");
     loadEvenements();
   } else {
@@ -342,15 +150,24 @@ document.getElementById("ev-submit").addEventListener("click", async () => {
   }
 });
 
+
+document.addEventListener("ev:reset", () => {
+  editingEvenementId = null;
+  document.getElementById("modal-ev-title").textContent = "Ajouter un événement";
+  ["ev-titre", "ev-description", "ev-lieu", "ev-date-debut", "ev-date-fin", "ev-heure-debut", "ev-heure-fin"]
+    .forEach((id) => (document.getElementById(id).value = ""));
+  document.getElementById("ev-error").classList.add("hidden");
+});
+
 loadEvenements();
 
-// ── GAZETTES ──
+
+
 const loadGazettes = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/gazettes`, {
-      credentials: "include",
-    });
+    const res = await fetch(`${API_URL}/api/gazettes`, { credentials: "include" });
     const gazettes = await res.json();
+
     document.getElementById("stat-gazettes").textContent = gazettes.length;
 
     const tbody = document.getElementById("gazettes-tbody");
@@ -359,9 +176,7 @@ const loadGazettes = async () => {
       return;
     }
 
-    tbody.innerHTML = gazettes
-      .map(
-        (g) => `
+    tbody.innerHTML = gazettes.map((g) => `
       <tr class="border-b last:border-0 hover:bg-gray-50">
         <td class="px-4 py-3 font-medium">${g.titre}</td>
         <td class="px-4 py-3 text-gray-500 max-w-xs truncate">${g.description ?? "—"}</td>
@@ -379,39 +194,30 @@ const loadGazettes = async () => {
           </div>
         </td>
       </tr>
-    `,
-      )
-      .join("");
+    `).join("");
 
-    // Boutons modifier
+
     document.querySelectorAll(".gz-edit").forEach((btn) => {
       btn.addEventListener("click", () => {
         editingGazetteId = +btn.dataset.id;
-        document.getElementById("modal-gz-title").textContent =
-          "Modifier la gazette";
+        document.getElementById("modal-gz-title").textContent = "Modifier la gazette";
         document.getElementById("gz-titre").value = btn.dataset.titre;
-        document.getElementById("gz-description").value =
-          btn.dataset.description;
-        document.getElementById("gz-file-group").classList.add("hidden"); // pas de remplacement PDF
+        document.getElementById("gz-description").value = btn.dataset.description;
+        document.getElementById("gz-file-group").classList.add("hidden");
         openModal("modal-gazette");
       });
     });
 
-    // Boutons supprimer
+  
     document.querySelectorAll(".gz-delete").forEach((btn) => {
       btn.addEventListener("click", () => {
         openConfirm(async () => {
-          const res = await fetch(
-            `${API_URL}/api/gazettes/delete/${btn.dataset.id}`,
-            {
-              method: "DELETE",
-              credentials: "include",
-            },
-          );
-          if (res.ok) {
-            showToast("Gazette supprimée");
-            loadGazettes();
-          } else showToast("Erreur lors de la suppression", "error");
+          const res = await fetch(`${API_URL}/api/gazettes/delete/${btn.dataset.id}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          if (res.ok) { showToast("Gazette supprimée"); loadGazettes(); }
+          else showToast("Erreur lors de la suppression", "error");
         });
       });
     });
@@ -420,7 +226,7 @@ const loadGazettes = async () => {
   }
 };
 
-// Soumettre ajout/modification gazette
+
 document.getElementById("gz-submit").addEventListener("click", async () => {
   const titre = document.getElementById("gz-titre").value.trim();
   const description = document.getElementById("gz-description").value.trim();
@@ -460,20 +266,10 @@ document.getElementById("gz-submit").addEventListener("click", async () => {
   }
 
   if (res.ok) {
-    closeModal("modal-gazette");
-    // reset
-    const wasEditingGz = editingGazetteId;
+    const wasEditing = editingGazetteId;
     editingGazetteId = null;
-    document.getElementById("modal-gz-title").textContent =
-      "Ajouter une gazette";
-    document.getElementById("gz-titre").value = "";
-    document.getElementById("gz-description").value = "";
-    document.getElementById("gz-fichier").value = "";
-    document.getElementById("gz-file-name").textContent =
-      "Choisir un fichier PDF";
-    document.getElementById("gz-file-group").classList.remove("hidden");
-
-    showToast(wasEditingGz ? "Gazette modifiée !" : "Gazette ajoutée !");
+    closeModal("modal-gazette");
+    showToast(wasEditing ? "Gazette modifiée !" : "Gazette ajoutée !");
     loadGazettes();
   } else {
     const err = await res.json();
@@ -482,4 +278,100 @@ document.getElementById("gz-submit").addEventListener("click", async () => {
   }
 });
 
+document.addEventListener("gz:reset", () => {
+  editingGazetteId = null;
+  document.getElementById("modal-gz-title").textContent = "Ajouter une gazette";
+  document.getElementById("gz-titre").value = "";
+  document.getElementById("gz-description").value = "";
+  document.getElementById("gz-fichier").value = "";
+  document.getElementById("gz-file-name").textContent = "Choisir un fichier PDF";
+  document.getElementById("gz-file-group").classList.remove("hidden");
+  document.getElementById("gz-error").classList.add("hidden");
+});
+
 loadGazettes();
+
+
+
+const loadBenevoles = async () => {
+  try {
+    const res = await fetch(`${API_URL}/api/benevoles`, { credentials: "include" });
+    const benevoles = await res.json();
+
+    document.getElementById("stat-benevoles").textContent = benevoles.length;
+
+    const tbody = document.getElementById("benevoles-tbody");
+    if (!benevoles.length) {
+      tbody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-400 py-4">Aucun bénévole enregistré.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = benevoles.map((u) => `
+      <tr class="border-b last:border-0 hover:bg-gray-50">
+        <td class="px-4 py-3 font-medium">${u.email}</td>
+        <td class="px-4 py-3">
+          <span class="${u.role === "admin" ? "bg-yellow-100 text-yellow-800" : "bg-blue-100 text-blue-700"} text-xs font-bold uppercase px-2 py-0.5 rounded-full">
+            ${u.role === "admin" ? "Admin" : "Bénévole"}
+          </span>
+        </td>
+        <td class="px-4 py-3 text-gray-500">${new Date(u.created_at).toLocaleDateString("fr-FR")}</td>
+        <td class="px-4 py-3">
+          ${u.role !== "admin"
+            ? `<button data-id="${u.id}" class="bv-delete bg-red-100 text-red-600 border border-red-200 font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:bg-red-200">🗑 Suppr.</button>`
+            : '<span class="text-gray-300 text-xs">—</span>'
+          }
+        </td>
+      </tr>
+    `).join("");
+
+    document.querySelectorAll(".bv-delete").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        openConfirm(async () => {
+          const res = await fetch(`${API_URL}/api/benevoles/${btn.dataset.id}`, {
+            method: "DELETE",
+            credentials: "include",
+          });
+          if (res.ok) { showToast("Compte supprimé"); loadBenevoles(); }
+          else showToast("Erreur lors de la suppression", "error");
+        });
+      });
+    });
+  } catch {
+    showToast("Erreur chargement bénévoles", "error");
+  }
+};
+
+
+document.getElementById("bv-submit").addEventListener("click", async () => {
+  const email = document.getElementById("bv-email").value.trim();
+  const password = document.getElementById("bv-password").value;
+  const errEl = document.getElementById("bv-error");
+
+  if (!email || !password) {
+    errEl.textContent = "L'email et le mot de passe sont obligatoires.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  errEl.classList.add("hidden");
+
+  const res = await fetch(`${API_URL}/api/benevoles`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (res.ok) {
+    closeModal("modal-benevole");
+    document.getElementById("bv-email").value = "";
+    document.getElementById("bv-password").value = "";
+    showToast("Compte bénévole créé !");
+    loadBenevoles();
+  } else {
+    const err = await res.json();
+    errEl.textContent = err.errors?.join(", ") ?? err.message ?? "Erreur";
+    errEl.classList.remove("hidden");
+  }
+});
+
+loadBenevoles();

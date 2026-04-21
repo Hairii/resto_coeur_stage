@@ -53,6 +53,13 @@
           📄 Gazettes
         </button>
 
+        <button
+          data-view="benevoles"
+          class="nav-item flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white text-sm"
+        >
+          👥 Bénévoles
+        </button>
+
         <span
           class="text-gray-500 text-xs font-bold uppercase tracking-wider mt-4"
           >Site</span
@@ -98,7 +105,7 @@
         <!-- Vue dashboard -->
         <div id="view-dashboard" class="space-y-6">
           <!-- stats -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="bg-white p-4 rounded shadow border">
               <p class="text-xs font-bold uppercase text-gray-500">
                 Événements
@@ -119,6 +126,15 @@
                 —
               </p>
             </div>
+            <div class="bg-white p-4 rounded shadow border">
+              <p class="text-xs font-bold uppercase text-gray-500">Bénévoles</p>
+              <p
+                class="font-syne font-extrabold text-2xl text-pink-600"
+                id="stat-benevoles"
+              >
+                —
+              </p>
+            </div>
           </div>
           <!-- ajout -->
           <div class="flex gap-3 flex-wrap">
@@ -133,6 +149,12 @@
               class="border border-gray-300 text-gray-700 font-syne font-bold text-xs uppercase tracking-wider px-4 py-2 rounded hover:bg-gray-50"
             >
               + Ajouter une gazette
+            </button>
+            <button
+              data-open="modal-benevole"
+              class="border border-gray-300 text-gray-700 font-syne font-bold text-xs uppercase tracking-wider px-4 py-2 rounded hover:bg-gray-50"
+            >
+              + Créer un bénévole
             </button>
           </div>
         </div>
@@ -205,6 +227,40 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Vue bénévoles -->
+          <div id="view-benevoles" class="hidden space-y-4">
+            <div class="bg-white rounded shadow border overflow-hidden">
+              <div class="px-4 py-3 flex items-center justify-between border-b">
+                <h2 class="font-syne font-extrabold text-sm">Bénévoles</h2>
+                <button
+                  data-open="modal-benevole"
+                  class="bg-pink-600 text-white font-syne font-bold text-xs uppercase px-3 py-1 rounded hover:opacity-90"
+                >
+                  + Créer un compte
+                </button>
+              </div>
+              <table class="w-full text-sm">
+                <thead
+                  class="bg-gray-100 border-b text-black text-xs uppercase font-bold"
+                >
+                  <tr>
+                    <th class="px-4 py-2 text-left">Email</th>
+                    <th class="px-4 py-2 text-left">Rôle</th>
+                    <th class="px-4 py-2 text-left">Créé le</th>
+                    <th class="px-4 py-2 text-left">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="benevoles-tbody">
+                  <tr>
+                    <td colspan="4" class="text-center text-gray-400 py-4">
+                      Chargement...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -267,16 +323,28 @@
             />
           </div>
           <div class="grid grid-cols-2 gap-4">
-<div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">Date début *</label>
-          <input id="ev-date-debut" type="date"
-            class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-pink-600" />
-        </div>
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">Date fin</label>
-          <input id="ev-date-fin" type="date"
-            class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-pink-600" />
-        </div>
+            <div>
+              <label
+                class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1"
+                >Date début *</label
+              >
+              <input
+                id="ev-date-debut"
+                type="date"
+                class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-pink-600"
+              />
+            </div>
+            <div>
+              <label
+                class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1"
+                >Date fin</label
+              >
+              <input
+                id="ev-date-fin"
+                type="date"
+                class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-pink-600"
+              />
+            </div>
 
             <div>
               <label
@@ -431,6 +499,73 @@
       </div>
     </div>
 
+    <!-- ── MODAL BÉNÉVOLE ── -->
+    <div
+      id="modal-benevole"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    >
+      <div class="bg-white rounded-lg w-full max-w-md shadow-xl">
+        <div class="flex items-center justify-between px-6 py-4 border-b">
+          <h3 class="font-syne font-extrabold text-sm uppercase">
+            Créer un compte bénévole
+          </h3>
+          <button
+            data-close="modal-benevole"
+            class="text-gray-400 hover:text-pink-600 text-xl leading-none"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="px-6 py-5 space-y-4">
+          <div>
+            <label
+              class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1"
+              >Email *</label
+            >
+            <input
+              id="bv-email"
+              type="email"
+              placeholder="benevole@exemple.fr"
+              class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-pink-600"
+            />
+          </div>
+          <div>
+            <label
+              class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1"
+              >Mot de passe *</label
+            >
+            <input
+              id="bv-password"
+              type="password"
+              placeholder="8 caractères minimum"
+              class="w-full border-2 border-gray-200 rounded px-3 py-2 text-sm outline-none focus:border-pink-600"
+            />
+          </div>
+          <p class="text-xs text-gray-400">
+            Le bénévole pourra se connecter avec ces identifiants pour
+            s'inscrire aux événements.
+          </p>
+          <p id="bv-error" class="hidden text-xs text-pink-600"></p>
+        </div>
+        <div
+          class="flex justify-end gap-3 px-6 py-4 bg-gray-50 border-t rounded-b-lg"
+        >
+          <button
+            data-close="modal-benevole"
+            class="border border-gray-300 text-gray-700 font-syne font-bold text-xs uppercase px-4 py-2 rounded hover:bg-gray-100"
+          >
+            Annuler
+          </button>
+          <button
+            id="bv-submit"
+            class="bg-pink-600 text-white font-syne font-bold text-xs uppercase px-4 py-2 rounded hover:opacity-90"
+          >
+            Créer le compte
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- ── confirmer suppresion ── -->
     <div
       id="modal-confirm"
@@ -466,6 +601,7 @@
       id="toast"
       class="fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-sm font-medium px-4 py-3 rounded-lg shadow-lg opacity-0 translate-y-8 transition-all duration-300 pointer-events-none"
     ></div>
+    <script type="module" src="/modal/dashboard.modal.js"></script>
     <script type="module" src="/api/dashboard.api.js"></script>
   </body>
 </html>
