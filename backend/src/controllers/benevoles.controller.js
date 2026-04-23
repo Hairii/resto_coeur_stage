@@ -21,7 +21,7 @@ export const createBenevole = async (req, res) => {
         }
 
         const hashedPassword = await argon2.hash(password);
-        await createUser(email, hashedPassword);
+        await createUser(email, hashedPassword, "bénévole");
 
         res.status(201).json({ message: "Compte bénévole créé" });
     } catch (error) {
@@ -34,7 +34,6 @@ export const removeBenevole = async (req, res) => {
     try {
         const { id } = req.params;
 
-        // Empêcher l'admin de se supprimer lui-même
         if (+id === req.user.id) {
             return res.status(400).json({ message: "Vous ne pouvez pas supprimer votre propre compte" });
         }

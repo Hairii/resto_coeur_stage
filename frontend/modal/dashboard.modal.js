@@ -1,6 +1,6 @@
 import API_URL from "../api/config.api.js";
 
-
+// ── AUTH ──
 export const checkAuth = async () => {
   try {
     const res = await fetch(`${API_URL}/api/auth/me`, { credentials: "include" });
@@ -13,7 +13,7 @@ export const checkAuth = async () => {
   }
 };
 
-
+// ── NAVIGATION ──
 const views = ["dashboard", "evenements", "gazettes", "benevoles"];
 const titles = {
   dashboard: "Tableau de bord",
@@ -37,14 +37,16 @@ export const switchView = (name) => {
     btn.classList.toggle("rounded", !isActive);
   });
   document.getElementById("page-title").textContent = titles[name];
+  document.dispatchEvent(new CustomEvent("view:change", { detail: name }));
 };
 
-
+// ── MODALS ──
 export const openModal = (id) =>
   document.getElementById(id).classList.remove("hidden");
 
 export const closeModal = (id) =>
   document.getElementById(id).classList.add("hidden");
+
 
 export const showToast = (msg, type = "success") => {
   const toast = document.getElementById("toast");
@@ -57,7 +59,7 @@ export const showToast = (msg, type = "success") => {
   }, 3000);
 };
 
-
+// ── CONFIRM ──
 let confirmCallback = null;
 
 export const openConfirm = (callback) => {
@@ -66,39 +68,17 @@ export const openConfirm = (callback) => {
 };
 
 
-
 document.querySelectorAll(".nav-item[data-view]").forEach((btn) => {
   btn.addEventListener("click", () => switchView(btn.dataset.view));
 });
-
 
 document.querySelectorAll("[data-open]").forEach((btn) => {
   btn.addEventListener("click", () => openModal(btn.dataset.open));
 });
 
-
-document.querySelectorAll("[data-open='modal-evenement']").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!btn.closest("td")) {
-      document.dispatchEvent(new CustomEvent("ev:reset"));
-    }
-  });
-});
-
-
-document.querySelectorAll("[data-open='modal-gazette']").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    if (!btn.closest("td")) {
-      document.dispatchEvent(new CustomEvent("gz:reset"));
-    }
-  });
-});
-
-
 document.querySelectorAll("[data-close]").forEach((btn) => {
   btn.addEventListener("click", () => closeModal(btn.dataset.close));
 });
-
 
 document.querySelectorAll("[id^='modal-']").forEach((modal) => {
   modal.addEventListener("click", (e) => {
@@ -106,23 +86,15 @@ document.querySelectorAll("[id^='modal-']").forEach((modal) => {
   });
 });
 
-
 document.getElementById("confirm-ok").addEventListener("click", () => {
   if (confirmCallback) confirmCallback();
   closeModal("modal-confirm");
   confirmCallback = null;
 });
 
-
 document.getElementById("logout-btn").addEventListener("click", async () => {
   await fetch(`${API_URL}/api/auth/logout`, { method: "POST", credentials: "include" });
   window.location.href = "/pages/login.html";
-});
-
-
-document.getElementById("gz-fichier").addEventListener("change", (e) => {
-  document.getElementById("gz-file-name").textContent =
-    e.target.files[0]?.name ?? "Choisir un fichier PDF";
 });
 
 await checkAuth();
