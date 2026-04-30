@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mes disponibilités - Les Restos du Cœur Charente</title>
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body class="bg-white text-black font-sans">
+
+    <!-- TITRE PAGE -->
+    <div class="bg-rose px-10 py-6">
+      <h2 class="text-white font-extrabold uppercase text-2xl tracking-wide">
+        Mes disponibilités
+      </h2>
+    </div>
+
+    <!-- CONTENU -->
+    <section class="px-10 py-12 bg-gris min-h-64">
+      <div id="dispos-container" class="max-w-xl mx-auto">
+        <p id="loading" class="text-gray-400 text-sm">Chargement...</p>
+      </div>
+    </section>
+
+    <script src="/components/header.js"></script>
+    <script src="/components/footer.js"></script>
+    <script type="module" src="/api/disponibilites.api.js"></script>
+    <script type="module" src="/modal/disponibilites.modal.js"></script>
+  </body>
+</html>

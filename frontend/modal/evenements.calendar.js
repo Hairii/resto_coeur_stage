@@ -146,11 +146,7 @@ const renderCalendar = (date) => {
 container.addEventListener("click", (e) => {
   const evDiv = e.target.closest("[data-ev-id]");
   if (!evDiv) return;
-
-  container.dispatchEvent(new CustomEvent("open-participation", {
-    detail: { id: evDiv.dataset.evId, titre: evDiv.dataset.evTitre },
-    bubbles: true,
-  }));
+  window.location.href = `/pages/disponibilites.html?id=${evDiv.dataset.evId}`;
 });
 
 
