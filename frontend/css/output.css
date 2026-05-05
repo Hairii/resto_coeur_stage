@@ -27,8 +27,10 @@
     --color-blue-200: oklch(88.2% 0.059 254.128);
     --color-blue-600: oklch(54.6% 0.245 262.881);
     --color-blue-700: oklch(48.8% 0.243 264.376);
+    --color-pink-100: oklch(94.8% 0.028 342.258);
     --color-pink-300: oklch(82.3% 0.12 346.018);
     --color-pink-600: oklch(59.2% 0.249 0.584);
+    --color-pink-700: oklch(52.5% 0.223 3.958);
     --color-gray-50: oklch(98.5% 0.002 247.839);
     --color-gray-100: oklch(96.7% 0.003 264.542);
     --color-gray-200: oklch(92.8% 0.006 264.531);
@@ -252,6 +254,9 @@
   .-top-32 {
     top: calc(var(--spacing) * -32);
   }
+  .top-0 {
+    top: calc(var(--spacing) * 0);
+  }
   .top-full {
     top: 100%;
   }
@@ -387,6 +392,9 @@
   .hidden {
     display: none;
   }
+  .inline-block {
+    display: inline-block;
+  }
   .table {
     display: table;
   }
@@ -500,6 +508,12 @@
   }
   .flex-1 {
     flex: 1;
+  }
+  .flex-shrink {
+    flex-shrink: 1;
+  }
+  .shrink-0 {
+    flex-shrink: 0;
   }
   .border-collapse {
     border-collapse: collapse;
@@ -624,6 +638,9 @@
   .overflow-hidden {
     overflow: hidden;
   }
+  .overflow-x-auto {
+    overflow-x: auto;
+  }
   .overflow-y-auto {
     overflow-y: auto;
   }
@@ -678,6 +695,10 @@
   .border-b-2 {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 2px;
+  }
+  .border-l {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 1px;
   }
   .border-l-2 {
     border-left-style: var(--tw-border-style);
@@ -778,6 +799,9 @@
   .bg-jaune {
     background-color: var(--color-jaune);
   }
+  .bg-pink-100 {
+    background-color: var(--color-pink-100);
+  }
   .bg-pink-600 {
     background-color: var(--color-pink-600);
   }
@@ -831,6 +855,9 @@
   }
   .p-6 {
     padding: calc(var(--spacing) * 6);
+  }
+  .p-8 {
+    padding: calc(var(--spacing) * 8);
   }
   .p-12 {
     padding: calc(var(--spacing) * 12);
@@ -1018,6 +1045,9 @@
   .text-pink-600 {
     color: var(--color-pink-600);
   }
+  .text-pink-700 {
+    color: var(--color-pink-700);
+  }
   .text-red-500 {
     color: var(--color-red-500);
   }
@@ -1056,9 +1086,6 @@
   }
   .opacity-10 {
     opacity: 10%;
-  }
-  .opacity-40 {
-    opacity: 40%;
   }
   .opacity-80 {
     opacity: 80%;

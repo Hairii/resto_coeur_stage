@@ -6,14 +6,16 @@ const loading   = document.getElementById("loading");
 let currentDate = new Date();
 
 
+
 const formatHeure = (h) => (h ? h.slice(0, 5) : "");
+
 
 const toLocal = (s) => {
   const [y, m, d] = s.slice(0, 10).split("-").map(Number);
   return new Date(y, m - 1, d);
 };
 
-
+// calendrier 
 
 const renderCalendar = (date) => {
   const month = date.getMonth();
@@ -30,22 +32,23 @@ const renderCalendar = (date) => {
   const monthStart = new Date(year, month, 1);
   const monthEnd   = new Date(year, month + 1, 0);
 
-  // Décalage lundi = 0
+  // decalage lundi = 0
   let start = firstDay.getDay();
   start = start === 0 ? 6 : start - 1;
 
-  // Événements sur plusieur mois
+  // evenements qui chevauchent ce mois
   const evenementsInMonth = evenements.filter((e) => {
     const debut = toLocal(e.date_debut);
     const fin   = toLocal(e.date_fin ?? e.date_debut);
     return debut <= monthEnd && fin >= monthStart;
   });
 
+
   const emptyCells = Array(start)
     .fill('<div class="border-b border-r border-gray-100 min-h-16 p-1 bg-gray-50"></div>')
     .join("");
 
-  //  jours 
+  // cases jours
   const dayCells = Array.from({ length: lastDay.getDate() }, (_, i) => {
     const day      = i + 1;
     const dateDay  = new Date(year, month, day);
@@ -60,7 +63,7 @@ const renderCalendar = (date) => {
 
     const badges = eventsDay.map((e) => `
       <div
-        class="text-xs rounded px-1 py-0.5 mt-1 truncate cursor-pointer"
+        class="text-xs rounded px-1 py-0.5 mt-1 truncate"
         style="background-color:${e._color.bg}; color:${e._color.text}"
         title="${e.titre}"
         data-ev-id="${e.id}"
@@ -76,32 +79,40 @@ const renderCalendar = (date) => {
     `;
   }).join("");
 
+
   const legende = evenementsInMonth.length > 0 ? `
     <div class="px-6 py-4 border-t border-gray-200">
       <h4 class="font-bold uppercase text-xs text-gray-500 mb-3">Événements du mois</h4>
       <div class="flex flex-col gap-2">
         ${evenementsInMonth.map((e) => `
-          <div class="flex gap-3 items-start">
-            <span
-              class="text-xs px-2 py-1 rounded font-bold whitespace-nowrap"
-              style="background-color:${e._color.bg}; color:${e._color.text}"
-            >
-              ${toLocal(e.date_debut).toLocaleDateString("fr-FR")}
-              → ${toLocal(e.date_fin ?? e.date_debut).toLocaleDateString("fr-FR")}
-            </span>
-            <div>
-              <p class="font-bold text-sm">${e.titre}</p>
-              <p class="text-xs text-black">
-                ${e.lieu ?? ""}
-                ${formatHeure(e.heure_debut)}
-                ${e.heure_fin ? "→ " + formatHeure(e.heure_fin) : ""}
-              </p>
+          <div class="flex gap-3 items-center justify-between">
+            <div class="flex gap-3 items-start">
+              <span
+                class="text-xs px-2 py-1 rounded font-bold whitespace-nowrap"
+                style="background-color:${e._color.bg}; color:${e._color.text}"
+              >
+                ${toLocal(e.date_debut).toLocaleDateString("fr-FR")}
+                → ${toLocal(e.date_fin ?? e.date_debut).toLocaleDateString("fr-FR")}
+              </span>
+              <div>
+                <p class="font-bold text-sm">${e.titre}</p>
+                <p class="text-xs text-black">
+                  ${e.lieu ?? ""}
+                  ${formatHeure(e.heure_debut)}
+                  ${e.heure_fin ? "→ " + formatHeure(e.heure_fin) : ""}
+                </p>
+              </div>
             </div>
+            <a
+              href="/pages/disponibilites.html?id=${e.id}"
+              class="shrink-0 bg-rose text-white text-xs font-bold uppercase px-3 py-2 rounded hover:opacity-85 transition-opacity"
+            >S'inscrire</a>
           </div>
         `).join("")}
       </div>
     </div>
   ` : "";
+
 
   container.innerHTML = `
     <div class="bg-white rounded shadow overflow-hidden w-full col-span-3">
@@ -130,7 +141,7 @@ const renderCalendar = (date) => {
     </div>
   `;
 
-  // Navigation mois
+  // navigation mois
   document.getElementById("prev").addEventListener("click", () => {
     currentDate = new Date(year, month - 1, 1);
     renderCalendar(currentDate);
@@ -140,16 +151,6 @@ const renderCalendar = (date) => {
     renderCalendar(currentDate);
   });
 };
-
-//  ouvre modal participation 
-
-container.addEventListener("click", (e) => {
-  const evDiv = e.target.closest("[data-ev-id]");
-  if (!evDiv) return;
-  window.location.href = `/pages/disponibilites.html?id=${evDiv.dataset.evId}`;
-});
-
-
 
 (async () => {
   try {

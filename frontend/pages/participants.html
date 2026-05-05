@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participants – Admin Restos du Cœur</title>
+    <link rel="stylesheet" href="/css/output.css" />
+  </head>
+  <body class="flex min-h-screen bg-gray-100 font-sans">
+
+    
+    <aside class="hidden md:flex flex-col w-60 bg-black min-h-screen p-6 fixed top-0 left-0 z-10">
+      <div class="flex items-center gap-3 mb-8">
+        <img
+          src="https://ad16.restosducoeur.org/wp-content/themes/associations-dep/img/logo.svg"
+          alt="Logo" class="w-12"
+        />
+        <div>
+          <p class="text-white font-syne text-xs font-extrabold uppercase">Restos du Cœur</p>
+          <span class="text-pink-600 font-syne text-[10px] font-bold uppercase">Administration</span>
+        </div>
+      </div>
+      <nav class="flex flex-col gap-2 flex-1">
+        <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Menu</span>
+        <a href="/pages/dashboard.html" class="flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white text-sm">📊 Tableau de bord</a>
+        <span class="text-gray-500 text-xs font-bold uppercase tracking-wider mt-4">Contenu</span>
+        <a href="/pages/dashboard.html" class="flex items-center gap-2 text-white bg-gray-900 border-l-2 border-pink-600 py-2 px-3 rounded-r text-sm">📅 Événements</a>
+        <a href="/pages/dashboard.html" class="flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white text-sm">📄 Gazettes</a>
+        <a href="/pages/dashboard.html" class="flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white text-sm">👥 Bénévoles</a>
+        <span class="text-gray-500 text-xs font-bold uppercase tracking-wider mt-4">Site</span>
+        <a href="/index.html" target="_blank" class="flex items-center gap-2 text-gray-400 py-2 px-3 rounded hover:bg-gray-900 hover:text-white text-sm">🌐 Voir le site</a>
+      </nav>
+      <button id="logout-btn" class="mt-auto flex items-center gap-2 text-gray-500 text-xs hover:text-pink-600">
+        ⬅ Déconnexion
+      </button>
+    </aside>
+
+    <main class="flex-1 flex flex-col ml-0 md:ml-60">
+
+      <div class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/pages/dashboard.html"
+             class="text-gray-400 hover:text-pink-600 text-sm font-bold">← Retour</a>
+          <h1 class="font-syne font-extrabold text-lg" id="page-title">Participants</h1>
+        </div>
+        <div class="bg-gray-100 border border-gray-200 rounded-full px-3 py-1 flex items-center gap-2 text-gray-500 text-sm">
+          👤 <span id="user-email">chargement...</span>
+          <span class="bg-yellow-300 text-yellow-800 text-xs font-bold px-2 py-0.5 rounded-full uppercase">Admin</span>
+        </div>
+      </div>
+
+      <div class="p-6 flex-1">
+        <div id="participants-container">
+          <p id="loading" class="text-gray-400 text-sm">Chargement...</p>
+        </div>
+      </div>
+
+    </main>
+
+    <script type="module" src="/api/participants.api.js"></script>
+  </body>
+</html>

@@ -3,7 +3,7 @@ import { loadEvenements } from "../api/dashboard.api.js";
 
 let editingEvenementId = null;
 
-// ── RESET  
+// remet a 0  
 document.querySelectorAll("[data-open='modal-evenement']").forEach((btn) => {
   btn.addEventListener("click", () => {
     if (!btn.closest("td")) {
@@ -16,7 +16,7 @@ document.querySelectorAll("[data-open='modal-evenement']").forEach((btn) => {
   });
 });
 
-// ──  MODIFIER ──
+// modifie
 document.getElementById("ev-submit").addEventListener("click", async () => {
   const titre = document.getElementById("ev-titre").value.trim();
   const description = document.getElementById("ev-description").value.trim();
@@ -58,7 +58,7 @@ document.getElementById("ev-submit").addEventListener("click", async () => {
   }
 });
 
-// ── PRÉ-REMPLISSAGE ──
+// pré-remplie
 export const openEditEvenement = (ev) => {
   editingEvenementId = ev.id;
   document.getElementById("modal-ev-title").textContent = "Modifier l'événement";
@@ -72,7 +72,7 @@ export const openEditEvenement = (ev) => {
   openModal("modal-evenement");
 };
 
-// ── SUPPRIMER ──
+// supprimer
 export const confirmDeleteEvenement = (id) => {
   openConfirm(async () => {
     const res = await fetch(`/api/evenements/delete/${id}`, {
@@ -83,28 +83,6 @@ export const confirmDeleteEvenement = (id) => {
   });
 };
 
-// ── PARTICIPANTS  ──
-export const openParticipants = async (id) => {
-  const res = await fetch(`/api/participations/evenement/${id}`, { credentials: "include" });
-  const participants = await res.json();
-  const list = document.getElementById("participants-list");
-
-  if (!participants.length) {
-    list.innerHTML = '<p class="text-gray-400 text-sm">Aucun participant enregistré.</p>';
-  } else {
-    list.innerHTML = participants.map((p) => {
-      const statut = p.statut === "oui" ? "✅ Participant" : "❌ Absent";
-      const couleur = p.statut === "oui" ? "text-green-600" : "text-red-500";
-      const hDebut = p.heure_debut ? p.heure_debut.slice(0, 5) : "—";
-      const hFin = p.heure_fin ? p.heure_fin.slice(0, 5) : "—";
-      return `
-        <div class="flex items-center justify-between border rounded px-3 py-2 text-sm">
-          <span class="font-medium">${p.email}</span>
-          <span class="${couleur} font-bold text-xs">${statut}</span>
-          <span class="text-gray-400 text-xs">${hDebut} → ${hFin}</span>
-        </div>
-      `;
-    }).join("");
-  }
-  openModal("modal-participants");
+export const openParticipants = (id) => {
+  window.location.href = `/pages/participants.html?id=${id}`;
 };
