@@ -1,4 +1,4 @@
-import API_URL from "./config.api.js";
+import {API_URL, fetchWithRefresh } from "./config.api.js";
 import { openEditEvenement, confirmDeleteEvenement, openParticipants } from "../modal/evenements.modal.js";
 import { openEditGazette, confirmDeleteGazette } from "../modal/gazettes.modal.js";
 import { confirmDeleteBenevole } from "../modal/benevoles.modal.js";
@@ -113,7 +113,7 @@ export async function loadGazettes() {
 
 export async function loadBenevoles() {
   try {
-    const res = await fetch(`${API_URL}/api/benevoles`, { credentials: "include" });
+    const res = await fetchWithRefresh(`${API_URL}/api/benevoles`, { credentials: "include" });
     const benevoles = await res.json();
 
     document.getElementById("stat-benevoles").textContent = benevoles.length;
