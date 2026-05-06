@@ -6,9 +6,7 @@ const loading   = document.getElementById("loading");
 let currentDate = new Date();
 
 
-
 const formatHeure = (h) => (h ? h.slice(0, 5) : "");
-
 
 const toLocal = (s) => {
   const [y, m, d] = s.slice(0, 10).split("-").map(Number);
@@ -63,7 +61,7 @@ const renderCalendar = (date) => {
 
     const badges = eventsDay.map((e) => `
       <div
-        class="text-xs rounded px-1 py-0.5 mt-1 truncate"
+        class="text-xs rounded px-1 py-0.5 mt-1 truncate cursor-pointer"
         style="background-color:${e._color.bg}; color:${e._color.text}"
         title="${e.titre}"
         data-ev-id="${e.id}"
@@ -78,7 +76,6 @@ const renderCalendar = (date) => {
       </div>
     `;
   }).join("");
-
 
   const legende = evenementsInMonth.length > 0 ? `
     <div class="px-6 py-4 border-t border-gray-200">
@@ -113,8 +110,10 @@ const renderCalendar = (date) => {
     </div>
   ` : "";
 
-
   container.innerHTML = `
+  <div class="bg-white rounded shadow overflow-hidden w-full col-span-3">
+  ${legende}
+  </div>
     <div class="bg-white rounded shadow overflow-hidden w-full col-span-3">
 
       <!-- Navigation mois -->
@@ -131,13 +130,14 @@ const renderCalendar = (date) => {
         `).join("")}
       </div>
 
+      
+
       <!-- Cases calendrier -->
       <div class="grid grid-cols-7 border-t border-gray-200">
         ${emptyCells}
         ${dayCells}
       </div>
 
-      ${legende}
     </div>
   `;
 
@@ -151,6 +151,7 @@ const renderCalendar = (date) => {
     renderCalendar(currentDate);
   });
 };
+
 
 (async () => {
   try {
