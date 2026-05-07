@@ -1,4 +1,4 @@
-import {API_URL, fetchWithRefresh } from "./config.api.js";
+import API_URL, { fetchWithRefresh } from "../api/config.api.js";
 import { openEditEvenement, confirmDeleteEvenement, openParticipants } from "../modal/evenements.modal.js";
 import { openEditGazette, confirmDeleteGazette } from "../modal/gazettes.modal.js";
 import { confirmDeleteBenevole } from "../modal/benevoles.modal.js";

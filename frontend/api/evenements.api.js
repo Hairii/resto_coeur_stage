@@ -1,4 +1,4 @@
-import API_URL from "./config.api.js";
+import API_URL, { fetchWithRefresh } from "../api/config.api.js";
 
 export const EVENEMENTS_COLORS = [
   { bg: "#e5007d", text: "#fff" }, // rose

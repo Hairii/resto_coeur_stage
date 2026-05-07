@@ -1,5 +1,4 @@
-import API_URL from "./config.api.js";
-
+import API_URL, { fetchWithRefresh } from "../api/config.api.js";
 export { API_URL };
 
 export let currentUser = null;
@@ -9,7 +8,7 @@ export let disposExistantes = [];
 
 export const initAuth = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/auth/me`, { credentials: "include" });
+    const res = await fetchWithRefresh(`${API_URL}/api/auth/me`, { credentials: "include" });
     if (res.ok) {
       const user = await res.json();
       if (user.role !== "admin") currentUser = user;
@@ -24,7 +23,7 @@ export const initAuth = async () => {
 };
 
 export const fetchEvenement = async (id) => {
-  const res = await fetch(`${API_URL}/api/evenements`);
+  const res = await fetchWithRefresh(`${API_URL}/api/evenements`);
   if (!res.ok) throw new Error("Erreur chargement événements");
   const all = await res.json();
   evenement = all.find((e) => e.id === +id) ?? null;
@@ -34,7 +33,7 @@ export const fetchEvenement = async (id) => {
 
 // Chargement dispos existantes 
 export const fetchMesDispos = async (evenementId) => {
-  const res = await fetch(`${API_URL}/api/participations/${evenementId}/dispos`, {
+  const res = await fetchWithRefresh(`${API_URL}/api/participations/${evenementId}/dispos`, {
     credentials: "include",
   });
   if (res.ok) disposExistantes = await res.json();
@@ -43,7 +42,7 @@ export const fetchMesDispos = async (evenementId) => {
 
 
 export const saveDispos = async (evenementId, dispos) => {
-  return await fetch(`${API_URL}/api/participations/${evenementId}/dispos`, {
+  return await fetchWithRefresh(`${API_URL}/api/participations/${evenementId}/dispos`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -53,7 +52,7 @@ export const saveDispos = async (evenementId, dispos) => {
 
 //Annuler toute la participation 
 export const deleteParticipation = async (evenementId) => {
-  return await fetch(`${API_URL}/api/participations/${evenementId}`, {
+  return await fetchWithRefresh(`${API_URL}/api/participations/${evenementId}`, {
     method: "DELETE",
     credentials: "include",
   });

@@ -1,10 +1,10 @@
-import API_URL from "./config.api.js";
+import API_URL, { fetchWithRefresh } from "../api/config.api.js";
 
 const container = document.getElementById("participants-container");
 const loading   = document.getElementById("loading");
 
 // auth admin 
-const authRes = await fetch(`${API_URL}/api/auth/me`, { credentials: "include" });
+const authRes = await fetchWithRefresh(`${API_URL}/api/auth/me`, { credentials: "include" });
 if (!authRes.ok) { window.location.href = "/pages/login.html"; }
 const me = await authRes.json();
 if (me.role !== "admin") { window.location.href = "/pages/login.html"; }
@@ -12,7 +12,7 @@ document.getElementById("user-email").textContent = me.email;
 
 // logout
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  await fetch(`${API_URL}/api/auth/logout`, { method: "POST", credentials: "include" });
+  await fetchWithRefresh(`${API_URL}/api/auth/logout`, { method: "POST", credentials: "include" });
   window.location.href = "/pages/login.html";
 });
 
@@ -55,7 +55,7 @@ if (!evenementId) {
 }
 
 // recuperer l'evenement
-const evRes = await fetch(`${API_URL}/api/evenements`, { credentials: "include" });
+const evRes = await fetchWithRefresh(`${API_URL}/api/evenements`, { credentials: "include" });
 const tousEvenements = await evRes.json();
 const evenement = tousEvenements.find((e) => e.id === +evenementId);
 
@@ -65,7 +65,7 @@ if (!evenement) {
 }
 
 // recuperer participants + dispos
-const partRes = await fetch(`${API_URL}/api/participations/evenement/${evenementId}`, {
+const partRes = await fetchWithRefresh(`${API_URL}/api/participations/evenement/${evenementId}`, {
   credentials: "include",
 });
 const participants = await partRes.json();

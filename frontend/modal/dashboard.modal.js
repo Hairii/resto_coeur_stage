@@ -1,9 +1,9 @@
-import API_URL from "../api/config.api.js";
+import API_URL, { fetchWithRefresh } from "../api/config.api.js";
 
 // ── AUTH ──
 export const checkAuth = async () => {
   try {
-    const res = await fetch(`${API_URL}/api/auth/me`, { credentials: "include" });
+    const res = await fetchWithRefresh(`${API_URL}/api/auth/me`, { credentials: "include" });
     if (!res.ok) throw new Error();
     const user = await res.json();
     if (user.role !== "admin") throw new Error();
@@ -93,7 +93,7 @@ document.getElementById("confirm-ok").addEventListener("click", () => {
 });
 
 document.getElementById("logout-btn").addEventListener("click", async () => {
-  await fetch(`${API_URL}/api/auth/logout`, { method: "POST", credentials: "include" });
+  await fetchWithRefresh(`${API_URL}/api/auth/logout`, { method: "POST", credentials: "include" });
   window.location.href = "/pages/login.html";
 });
 
