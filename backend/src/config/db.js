@@ -1,26 +1,22 @@
-import mysql2 from "mysql2/promise";
-import dotenv from "dotenv";
+javascriptimport pg from "pg";
 
-dotenv.config();
+const { Pool } = pg;
+
 let db;
 try {
-  db = await mysql2.createPool({
+  db = new Pool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-    timezone: '+00:00',
+    port: process.env.DB_PORT || 5432,
+    ssl: { rejectUnauthorized: false },
   });
 
-  const connexion = await db.getConnection();
-  console.log("Connexion à la base de données réussie");
-  connexion.release();
+  const client = await db.connect();
+  console.log("Connexion à la base de données réussie");
+  client.release();
 } catch (error) {
   console.error("Erreur de connexion", error.message);
   process.exit(1);
 }
-
-export default db;
